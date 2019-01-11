@@ -29,6 +29,18 @@ public:
 
         return isEqual;
     }
+
+//    void print() {
+//        cout << "Artist Name: " << artistName << endl;
+//        cout << "Title: " << title << endl;
+//        cout << "Year: " << year << endl;
+//
+//    }
+//    friend ostream &operator <<(ostream& output, const Artwork &art) {
+//        output << "Artist Name: " << art.artistName << endl;
+//        output << "Title: " << title << endl;
+//        return output;
+//    }
 };
 
 class SoldArtwork : public Artwork {
@@ -57,6 +69,14 @@ public:
         isEqual = isEqual && (static_cast<Artwork>(*this) == static_cast<Artwork>(target));
         return isEqual;
     }
+
+//    void print() {
+//        Artwork::print();
+//        cout << "Customer Name: " << customerName << endl;
+//        cout << "Customer Address: " << customerAddress << endl;
+//        cout << "Sale Amount: " << saleAmount << endl;
+//    }
+
 };
 
 class ArtCollection {
@@ -99,10 +119,10 @@ public:
         //Add to mySoldArtwork
         if (eraseArtwork) {
             mySoldArtwork.insert(mySoldArtwork.begin(), artworkInfo);
-            cout << "Added to mySoldArtwork" << endl;
+            //cout << "Added to mySoldArtwork" << endl;
             return true;
         } else {
-            cout << "No art found" << endl;
+            //cout << "No art found" << endl;
             return false;
         }
     }
@@ -113,25 +133,49 @@ public:
         isEqual = isEqual && (mySoldArtwork == target.mySoldArtwork);
         return isEqual;
     }
+
+    friend ArtCollection operator +(const ArtCollection &collection1, const ArtCollection &collection2) {
+        ArtCollection combinedCollection;
+        unsigned int long sizeOfCollection1 = collection1.myArtwork.size();
+        unsigned int long sizeOfCollection2 = collection2.mySoldArtwork.size();
+
+        for (int i = 0; i < sizeOfCollection1; i++) {
+            combinedCollection.myArtwork[i] = collection1.myArtwork[i];
+            combinedCollection.mySoldArtwork[i] = collection1.mySoldArtwork[i];
+        }
+
+        for (int i = 0; i < sizeOfCollection2; i++) {
+            combinedCollection.myArtwork[sizeOfCollection1 + i] = collection2.myArtwork[i];
+            combinedCollection.mySoldArtwork[sizeOfCollection1 + i] = collection1.mySoldArtwork[i];
+        }
+
+        return combinedCollection;
+    }
+
+//    void print() {
+//        for (vector<Artwork>::const_iterator i = myArtwork.begin(); i != myArtwork.end(); i++) {
+//            cout << *i;
+//            cout << "Hello" << endl;
+//        }
+//
+//        for (vector<Artwork>::const_iterator i = mySoldArtwork.begin(); i != mySoldArtwork.end(); i++) {
+//            cout << *i;
+//        }
+//    }
 };
 
 int main() {
     ArtCollection myArt;
     Artwork art1("jon", "coolArt1", 1999);
-    Artwork art2("jon", "coolArt1", 2000);
-
-    SoldArtwork art3("aman", "295 Lester", 4206969.0, "jon", "coolArt1", 1999);
-    SoldArtwork art4("aman", "295 Lester", 4206969.0, "jon", "coolArt1", 2000);
+    Artwork art2("jeff", "coolArt1", 2000);
+    Artwork art3("jon", "coolArt1", 1999);
+    SoldArtwork art4("aman", "295 Lester", 123456.789, "jon", "coolArt1", 1999);
+    SoldArtwork art5("acar", "295 Lester", 4206969.0, "jon", "coolArt1", 2000);
 
     myArt.insertArtwork(art1);
     myArt.insertArtwork(art2);
-    myArt.sellArtwork(art3);
+    myArt.sellArtwork(art4);
 
-//    if (art3 == art4){
-//        cout << "they are equal";
-//    } else {
-//        cout << "no";
-//    }
     return 0;
 }
 

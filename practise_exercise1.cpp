@@ -165,16 +165,33 @@ public:
 };
 
 int main() {
-    ArtCollection myArt;
+    ArtCollection myArt1;
     Artwork art1("jon", "coolArt1", 1999);
     Artwork art2("jeff", "coolArt1", 2000);
     Artwork art3("jon", "coolArt1", 1999);
-    SoldArtwork art4("aman", "295 Lester", 123456.789, "jon", "coolArt1", 1999);
-    SoldArtwork art5("acar", "295 Lester", 4206969.0, "jon", "coolArt1", 2000);
+    SoldArtwork art4("imaginary", "1000 sunview", 89.89, "artist", "likes art", 2000);
+    SoldArtwork art5("aman", "295 Lester", 123456.789, "jon", "coolArt1", 1999);
 
-    myArt.insertArtwork(art1);
-    myArt.insertArtwork(art2);
-    myArt.sellArtwork(art4);
+    myArt1.insertArtwork(art1);
+    myArt1.insertArtwork(art2);
+    myArt1.insertArtwork(art3);
+    myArt1.sellArtwork(art4);
+    myArt1.sellArtwork(art5);
+
+    ArtCollection myArt2;
+    Artwork art6("picasso", "coolArt1", 1999);
+    Artwork art7("monet", "coolArt1", 2000);
+    Artwork art8("michelangelo", "coolArt1", 1999);
+    SoldArtwork art9("richdude", "295 Lester", 123456.789, "money", "coolArt1", 1999);
+
+    myArt2.insertArtwork(art6);
+    myArt2.insertArtwork(art7);
+    myArt2.insertArtwork(art8);
+    myArt2.sellArtwork(art9);
+    myArt2.sellArtwork(art9);
+
+    ArtCollection totalCollection;
+    totalCollection = myArt1 + myArt2;
 
     return 0;
 }

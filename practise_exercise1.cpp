@@ -29,18 +29,6 @@ public:
 
         return isEqual;
     }
-
-//    void print() {
-//        cout << "Artist Name: " << artistName << endl;
-//        cout << "Title: " << title << endl;
-//        cout << "Year: " << year << endl;
-//
-//    }
-//    friend ostream &operator <<(ostream& output, const Artwork &art) {
-//        output << "Artist Name: " << art.artistName << endl;
-//        output << "Title: " << title << endl;
-//        return output;
-//    }
 };
 
 class SoldArtwork : public Artwork {
@@ -69,14 +57,6 @@ public:
         isEqual = isEqual && (static_cast<Artwork>(*this) == static_cast<Artwork>(target));
         return isEqual;
     }
-
-//    void print() {
-//        Artwork::print();
-//        cout << "Customer Name: " << customerName << endl;
-//        cout << "Customer Address: " << customerAddress << endl;
-//        cout << "Sale Amount: " << saleAmount << endl;
-//    }
-
 };
 
 class ArtCollection {
@@ -96,10 +76,8 @@ public:
         //If Duplicate is found, cancel operation
         if (!isDuplicate) {
             myArtwork.insert(myArtwork.begin(), artworkInfo);
-            //cout << "Not Duplicate";
             return true;
         } else {
-            //cout << "Duplicate";
             return false;
         }
     }
@@ -112,17 +90,14 @@ public:
             if (myArtwork[i] == artworkInfo) {
                 myArtwork.erase(myArtwork.begin() + i);
                 eraseArtwork = true;
-                //cout << "Erased";
             }
         }
 
         //Add to mySoldArtwork
         if (eraseArtwork) {
             mySoldArtwork.insert(mySoldArtwork.begin(), artworkInfo);
-            //cout << "Added to mySoldArtwork" << endl;
             return true;
         } else {
-            //cout << "No art found" << endl;
             return false;
         }
     }
@@ -136,62 +111,108 @@ public:
 
     friend ArtCollection operator +(const ArtCollection &collection1, const ArtCollection &collection2) {
         ArtCollection combinedCollection;
-        unsigned int long sizeOfCollection1 = collection1.myArtwork.size();
-        unsigned int long sizeOfCollection2 = collection2.mySoldArtwork.size();
+        unsigned int long sizeOfCollection1Artwork = collection1.myArtwork.size();
+        unsigned int long sizeOfCollection2Artwork = collection2.myArtwork.size();
+        unsigned int long sizeOfCollection1SoldArtwork = collection1.mySoldArtwork.size();
+        unsigned int long sizeOfCollection2SoldArtwork = collection2.mySoldArtwork.size();
 
-        for (int i = 0; i < sizeOfCollection1; i++) {
-            combinedCollection.myArtwork[i] = collection1.myArtwork[i];
-            combinedCollection.mySoldArtwork[i] = collection1.mySoldArtwork[i];
+        for (int i = 0; i < sizeOfCollection1Artwork; i++) {
+            combinedCollection.myArtwork.push_back(collection1.myArtwork.at(i));
         }
 
-        for (int i = 0; i < sizeOfCollection2; i++) {
-            combinedCollection.myArtwork[sizeOfCollection1 + i] = collection2.myArtwork[i];
-            combinedCollection.mySoldArtwork[sizeOfCollection1 + i] = collection1.mySoldArtwork[i];
+        for (int i = 0; i < sizeOfCollection2Artwork; i++) {
+            combinedCollection.myArtwork.push_back(collection2.myArtwork.at(i));
+        }
+
+        for (int i = 0; i < sizeOfCollection1SoldArtwork; i++) {
+            combinedCollection.mySoldArtwork.push_back(collection1.mySoldArtwork.at(i));
+        }
+
+        for (int i = 0; i < sizeOfCollection2SoldArtwork; i++) {
+            combinedCollection.mySoldArtwork.push_back(collection2.mySoldArtwork.at(i));
         }
 
         return combinedCollection;
     }
-
-//    void print() {
-//        for (vector<Artwork>::const_iterator i = myArtwork.begin(); i != myArtwork.end(); i++) {
-//            cout << *i;
-//            cout << "Hello" << endl;
-//        }
-//
-//        for (vector<Artwork>::const_iterator i = mySoldArtwork.begin(); i != mySoldArtwork.end(); i++) {
-//            cout << *i;
-//        }
-//    }
 };
 
-int main() {
-    ArtCollection myArt1;
+void test_insert_artwork(ArtCollection &myArt1, ArtCollection &myArt2) {
+
+    Artwork art0;
     Artwork art1("jon", "coolArt1", 1999);
     Artwork art2("jeff", "coolArt1", 2000);
     Artwork art3("jon", "coolArt1", 1999);
+    Artwork art6("picasso", "coolArt1", 1999);
+    Artwork art7("monet", "coolArt1", 2000);
+    Artwork art8("michelangelo", "coolArt1", 1999);
+
+    if (art1 == art3) {
+        cout << "Art 1 is the same as art 3!" << endl;
+    }
+
+    myArt1.insertArtwork(art1);
+    myArt1.insertArtwork(art2);
+    myArt1.insertArtwork(art3);
+    myArt2.insertArtwork(art6);
+    myArt2.insertArtwork(art7);
+    myArt2.insertArtwork(art8);
+}
+
+void test_sell_artwork(ArtCollection &myArt1, ArtCollection &myArt2) {
+
+    SoldArtwork art0;
+    SoldArtwork art4("imaginary", "1000 sunview", 89.89, "artist", "likes art", 2000);
+    SoldArtwork art5("aman", "295 Lester", 123456.789, "jon", "coolArt1", 1999);
+    SoldArtwork art6("aman", "295 Lester", 123456.789, "jon", "coolArt1", 1999);
+    SoldArtwork art9("richdude", "295 Lester", 123456.789, "money", "coolArt1", 1999);
+
+    if (art5 == art6 ) {
+        cout << "Art 5 is the same as Art 6!" << endl;
+    }
+
+    myArt1.sellArtwork(art4);
+    myArt1.sellArtwork(art5);
+    myArt2.sellArtwork(art9);
+    myArt2.sellArtwork(art9);
+}
+
+void testEqualArtCollections() {
+    ArtCollection myArt1;
+    ArtCollection myArt2;
+
+    Artwork art1("jon", "coolArt1", 1999);
+    Artwork art2("jeff", "coolArt1", 2000);
     SoldArtwork art4("imaginary", "1000 sunview", 89.89, "artist", "likes art", 2000);
     SoldArtwork art5("aman", "295 Lester", 123456.789, "jon", "coolArt1", 1999);
 
     myArt1.insertArtwork(art1);
     myArt1.insertArtwork(art2);
-    myArt1.insertArtwork(art3);
+    myArt2.insertArtwork(art1);
+    myArt2.insertArtwork(art2);
+
     myArt1.sellArtwork(art4);
     myArt1.sellArtwork(art5);
+    myArt2.sellArtwork(art4);
+    myArt2.sellArtwork(art5);
 
-    ArtCollection myArt2;
-    Artwork art6("picasso", "coolArt1", 1999);
-    Artwork art7("monet", "coolArt1", 2000);
-    Artwork art8("michelangelo", "coolArt1", 1999);
-    SoldArtwork art9("richdude", "295 Lester", 123456.789, "money", "coolArt1", 1999);
+    if (myArt1 == myArt2) {
+        cout << "The art collections are the same!" << endl;
+    }
+}
 
-    myArt2.insertArtwork(art6);
-    myArt2.insertArtwork(art7);
-    myArt2.insertArtwork(art8);
-    myArt2.sellArtwork(art9);
-    myArt2.sellArtwork(art9);
-
+void testAddCollections(ArtCollection myArt1, ArtCollection myArt2) {
     ArtCollection totalCollection;
     totalCollection = myArt1 + myArt2;
+}
+
+int main() {
+    ArtCollection myArt1;
+    ArtCollection myArt2;
+
+    test_insert_artwork(myArt1, myArt2);
+    test_sell_artwork(myArt1, myArt2);
+    testEqualArtCollections();
+    testAddCollections(myArt1, myArt2);
 
     return 0;
 }

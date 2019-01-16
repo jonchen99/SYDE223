@@ -1,7 +1,6 @@
 //Aman Mathur 20710307 && Jonathan Chen 20722167
 
 #include <iostream>
-#include <cstring>
 #include <vector>
 using namespace std;
 
@@ -65,8 +64,7 @@ class ArtCollection {
 public:
     bool insertArtwork(const Artwork &artworkInfo){
         bool isDuplicate = false;
-
-        //Check for duplicate
+            //Check for duplicate
         for (int i = 0; i < myArtwork.size(); i++) {
             if (myArtwork[i] == artworkInfo) {
                 isDuplicate = true;
@@ -100,6 +98,7 @@ public:
         } else {
             return false;
         }
+
     }
 
     bool operator ==(const ArtCollection &target) {
@@ -140,7 +139,7 @@ void test_insert_artwork(ArtCollection &myArt1, ArtCollection &myArt2) {
 
     Artwork art0;
     Artwork art1("jon", "coolArt1", 1999);
-    Artwork art2("jeff", "coolArt1", 2000);
+    Artwork art2("artist", "likes art", 2000);
     Artwork art3("jon", "coolArt1", 1999);
     Artwork art6("picasso", "coolArt1", 1999);
     Artwork art7("monet", "coolArt1", 2000);
@@ -159,6 +158,7 @@ void test_insert_artwork(ArtCollection &myArt1, ArtCollection &myArt2) {
 }
 
 void test_sell_artwork(ArtCollection &myArt1, ArtCollection &myArt2) {
+    Artwork art10("money", "coolart1", 1999);
 
     SoldArtwork art0;
     SoldArtwork art4("imaginary", "1000 sunview", 89.89, "artist", "likes art", 2000);

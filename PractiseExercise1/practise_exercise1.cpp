@@ -1,4 +1,8 @@
-//Aman Mathur 20710307 && Jonathan Chen 20722167
+// Aman Mathur 20710307
+//       &&
+// Jonathan Chen 20722167
+//
+// SYDE 223 Practice Assignment #1
 
 #include <iostream>
 #include <vector>
@@ -138,42 +142,70 @@ public:
 void test_insert_artwork(ArtCollection &myArt1, ArtCollection &myArt2) {
 
     Artwork art0;
-    Artwork art1("jon", "coolArt1", 1999);
-    Artwork art2("artist", "likes art", 2000);
-    Artwork art3("jon", "coolArt1", 1999);
-    Artwork art6("picasso", "coolArt1", 1999);
-    Artwork art7("monet", "coolArt1", 2000);
-    Artwork art8("michelangelo", "coolArt1", 1999);
+    Artwork guernica("Picasso", "Guernica", 1937);
+    Artwork theOldGuitarist("Picasso", "The Old Guitarist", 1903);
+    Artwork theWeepingWoman("Picasso", "The Weeping Woman", 1937);
+    Artwork theWeepingWomanCriesAgain("Picasso", "The Weeping Woman", 1937);
 
-    if (art1 == art3) {
-        cout << "Art 1 is the same as art 3!" << endl;
+    Artwork sistineChapel("Michelangelo", "Sistine Chapel Ceiling", 1512);
+    Artwork pieta("Michelangelo", "Pieta", 1499);
+    Artwork david("Michelangelo", "David", 1504);
+
+    if (theWeepingWoman == theWeepingWomanCriesAgain) {
+        cout << "These paintings are the same!" << endl;
     }
 
-    myArt1.insertArtwork(art1);
-    myArt1.insertArtwork(art2);
-    myArt1.insertArtwork(art3);
-    myArt2.insertArtwork(art6);
-    myArt2.insertArtwork(art7);
-    myArt2.insertArtwork(art8);
+    if (myArt1.insertArtwork(guernica)) {
+        cout << "Inserted Guernica" << endl;
+    }
+    if (myArt1.insertArtwork(theOldGuitarist)) {
+        cout << "Inserted The Old Guitarist" << endl;
+    }
+    if (myArt1.insertArtwork(theWeepingWoman)) {
+        cout << "Inserted The Weeping Woman" << endl;
+    }
+    if (myArt1.insertArtwork(theWeepingWomanCriesAgain)) {
+        cout << "Inserted The Weeping Woman Cries Again" << endl;
+    } else {
+        cout << "Duplicate of The Weeping Woman! Did not insert into collection" << endl;
+    }
+
+    myArt2.insertArtwork(sistineChapel);
+    myArt2.insertArtwork(pieta);
+    myArt2.insertArtwork(david);
 }
 
 void test_sell_artwork(ArtCollection &myArt1, ArtCollection &myArt2) {
     Artwork art10("money", "coolart1", 1999);
 
     SoldArtwork art0;
-    SoldArtwork art4("imaginary", "1000 sunview", 89.89, "artist", "likes art", 2000);
-    SoldArtwork art5("aman", "295 Lester", 123456.789, "jon", "coolArt1", 1999);
-    SoldArtwork art6("aman", "295 Lester", 123456.789, "jon", "coolArt1", 1999);
-    SoldArtwork art9("richdude", "295 Lester", 123456.789, "money", "coolArt1", 1999);
+    SoldArtwork soldGuernica("John Smith", "111 Lester", 123456.789, "Picasso", "Guernica", 1937);
+    SoldArtwork soldPieta("Johnson", "123 Lester", 127465, "Michelangelo", "Pieta", 1499);
+    SoldArtwork soldDavid("Ericsson", "1000 sunview", 89.89, "Michelangelo", "David", 1504);
+    SoldArtwork soldPietaCopy("Johnson", "123 Lester", 127465, "Michelangelo", "Pieta", 1499);
 
-    if (art5 == art6 ) {
-        cout << "Art 5 is the same as Art 6!" << endl;
+    if (soldPieta == soldPietaCopy) {
+        cout << "Pieta Artworks are the Same!" << endl;
     }
 
-    myArt1.sellArtwork(art4);
-    myArt1.sellArtwork(art5);
-    myArt2.sellArtwork(art9);
-    myArt2.sellArtwork(art9);
+    if (myArt1.sellArtwork(soldGuernica)) {
+        cout << "Sold Guernica" << endl;
+    }
+
+    if (myArt2.sellArtwork(soldPieta)) {
+        cout << "Sold Pieta" << endl;
+    }
+
+    if (myArt2.sellArtwork(soldDavid)) {
+        cout << "Sold David" << endl;
+    }
+
+    if (myArt2.sellArtwork(soldPietaCopy)) {
+        cout << "Sold Pieta Copy" << endl;
+    } else {
+        cout << "Cannot sell duplicate item!" << endl;
+    }
+
 }
 
 void testEqualArtCollections() {
@@ -182,21 +214,21 @@ void testEqualArtCollections() {
 
     Artwork art1("jon", "coolArt1", 1999);
     Artwork art2("jeff", "coolArt1", 2000);
-    SoldArtwork art4("imaginary", "1000 sunview", 89.89, "artist", "likes art", 2000);
     SoldArtwork art5("aman", "295 Lester", 123456.789, "jon", "coolArt1", 1999);
 
     myArt1.insertArtwork(art1);
     myArt1.insertArtwork(art2);
+
     myArt2.insertArtwork(art1);
     myArt2.insertArtwork(art2);
 
-    myArt1.sellArtwork(art4);
     myArt1.sellArtwork(art5);
-    myArt2.sellArtwork(art4);
     myArt2.sellArtwork(art5);
 
     if (myArt1 == myArt2) {
         cout << "The art collections are the same!" << endl;
+    } else {
+        cout << "Collections aren't the same!" << endl;
     }
 }
 
@@ -206,13 +238,13 @@ void testAddCollections(ArtCollection myArt1, ArtCollection myArt2) {
 }
 
 int main() {
-    ArtCollection myArt1;
-    ArtCollection myArt2;
+    ArtCollection Picasso;
+    ArtCollection Michelangelo;
 
-    test_insert_artwork(myArt1, myArt2);
-    test_sell_artwork(myArt1, myArt2);
+    test_insert_artwork(Picasso, Michelangelo);
+    test_sell_artwork(Picasso, Michelangelo);
     testEqualArtCollections();
-    testAddCollections(myArt1, myArt2);
+    testAddCollections(Picasso, Michelangelo);
 
     return 0;
 }

@@ -102,17 +102,17 @@ Polynomial Polynomial:: operator-(const Polynomial &target) {
         biggerVector = target.data;
     }
 
-    Polynomial sum;
-    sum.data.resize(bigger_range);
+    Polynomial difference;
+    difference.data.resize(bigger_range);
 
     for (int i = 0; i < smaller_range; i++) {
-        sum.data[i] = data[i] - target.data[i];
+        difference.data[i] = data[i] - target.data[i];
     }
 
     for (int i = smaller_range; i < bigger_range; i++) {
-        sum.data[i] = biggerVector[i];
+        difference.data[i] = biggerVector[i];
     }
-    return sum;
+    return difference;
 }
 
 Polynomial Polynomial:: operator*(const Polynomial &target) {

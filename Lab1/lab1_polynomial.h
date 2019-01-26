@@ -41,6 +41,7 @@ public:
     PolynomialTest();
     bool test_constructor1();
     bool test_constructor2();
+    bool test_default_constructor();
     bool test_equals();
     bool test_addition();
     bool test_subtraction();

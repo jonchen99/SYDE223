@@ -234,6 +234,25 @@ bool PolynomialTest::test_constructor2() {
     return isEqual;
 }
 
+bool PolynomialTest::test_default_constructor() {
+    Polynomial default1;
+    bool inBounds = true;
+
+    //checks if the exponent is between 0 and 1000
+    if (default1.data.size() < 0 || default1.data.size() > 1000) {
+        inBounds = false;
+    }
+
+    //checks if the coefficients are between -1000 and 1000
+    for (int i = 0; i < default1.data.size() && inBounds; i++) {
+        if (default1.data[i] < -1000 || default1.data[i] > 1000) {
+            inBounds = false;
+        }
+    }
+
+    return inBounds;
+}
+
 bool PolynomialTest::test_equals() {
     int array[5] = {100,-55,102,45,-2};
     int array2[5] = {1,-55,102,45,-2};
@@ -452,6 +471,12 @@ void PolynomialTest:: run() {
         cout << "Test Constructor 2 Passed! " << endl;
     } else {
         cout << "Test Constructor 2 Failed! " << endl;
+    }
+
+    if (test_default_constructor()) {
+        cout << "Test Default Constructor Passed! " << endl;
+    } else {
+        cout << "Test Default Constructor Failed! " << endl;
     }
 
     if (test_equals()) {

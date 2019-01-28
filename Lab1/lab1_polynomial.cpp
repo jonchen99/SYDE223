@@ -212,6 +212,8 @@ bool PolynomialTest::test_constructor1() {
 //test the constructor that reads in from a file
 bool PolynomialTest::test_constructor2() {
     int comparison_array[7] = {11,22,33,-3,54,55,-100};
+
+    //Enter absolute path of coefficients text file
     Polynomial test_polynomial("/Users/jonathanchen/Documents/2A/223/Lab1/coefficients.txt");
     bool isEqual = true;
     int bigger_size = 0;
@@ -254,7 +256,7 @@ bool PolynomialTest::test_default_constructor() {
 }
 
 bool PolynomialTest::test_equals() {
-    int array[5] = {100,-55,102,45,-2};
+    int array[5] = {1,-55,102,45,-2};
     int array2[5] = {1,-55,102,45,-2};
     int size = 5;
     Polynomial equal_polynomial1(array,size);
@@ -445,10 +447,14 @@ bool PolynomialTest::test_print() {
 
     //User input to determine if the arrays are the same
     cout << endl << "Testing the print function:" << endl << endl;
-    polynomial1.print();
-    polynomial2.print();
-    polynomial3.print();
-    polynomial4.print();
+    cout << "Input: {1,2,3,4,5,6}" << endl;
+    cout << "Output: "; polynomial1.print();
+    cout << "Input: {-3,6,-1,-100}" << endl;
+    cout << "Output: "; polynomial2.print();
+    cout << "Input: {3}" << endl;
+    cout << "Output: "; polynomial3.print();
+    cout << "Input: {0,0,0,0,0,5}" << endl;
+    cout << "Output: "; polynomial4.print();
     cout << endl << "Are the printed statements the same as the expected polynomial? (Y/N) ";
 
     cin >> isSame;

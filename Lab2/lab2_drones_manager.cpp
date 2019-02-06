@@ -4,17 +4,20 @@
 
 DronesManager::DronesManager() {
 	DroneRecord();
+    size = 0;
+    first = NULL;
+    last = NULL;
 }
 
 DronesManager::~DronesManager() {
-    DroneRecord *curr = first;
-    DroneRecord *next;
-
-    while (curr != NULL) {
-        next = curr->next;
-        delete curr;
-        curr = next;
-    }
+//    DroneRecord *curr = first;
+//    DroneRecord *next;
+//
+//    while (curr != NULL) {
+//        next = curr->next;
+//        delete curr;
+//        curr = next;
+//    }
 }
 
 bool operator==(const DronesManager::DroneRecord& lhs, const DronesManager::DroneRecord& rhs) {
@@ -38,7 +41,7 @@ unsigned int DronesManager::get_size() const {
 }
 
 bool DronesManager::empty() const {
-	return first == NULL && first->next == NULL;
+	return first == NULL && last == NULL;
 }
 
 DronesManager::DroneRecord DronesManager::select(unsigned int index) const {
@@ -79,36 +82,65 @@ unsigned int DronesManager::search(DroneRecord value) const {
     return return_value;
 }
 
+//NEEDS TO BE FIXED: prints the address instead of the value
 void DronesManager::print() const {
     DroneRecord *curr = first;
-    int count = 1;
-    while (curr -> next) {
-        cout << count << " element is " << curr << endl;
+    for (int i = 0; i < size; i++) {
+        cout << i+1 << " element is " << curr << endl;
     }
 }
 
+//not sure if this is right, may need to set last. Also can you use insert to insert front or insert back?
 bool DronesManager::insert(DroneRecord value, unsigned int index) {
 	DroneRecord *curr = first;
+    DroneRecord *tmp;
+
+    if (empty())
+        return false;
+
     if (index >= size || index < 0)
         return false;
 
     if (index == 0) {
         first = &value;
+        first->next = curr;
+        first -> prev = NULL;
+        curr = first;
     }
     for (unsigned int i = 0; i < index - 1; i++) {
         curr = curr->next;
     }
-    int i =2;
-    int *ip1;
-    ip1 = &i;
+    tmp = curr;
+    curr = &value;
+    curr->prev = tmp;
+    curr->next = tmp->next;
+    size++;
+
+    return true;
 }
 
 bool DronesManager::insert_front(DroneRecord value) {
-	return false;
+    DroneRecord *curr = first;
+
+    first = &value;
+    first->next = curr;
+    first->prev = NULL;
+    size++;
+
+    print();
+
+	return true;
 }
 
 bool DronesManager::insert_back(DroneRecord value) {
-	return false;
+    DroneRecord *curr = last;
+
+    last = &value;
+    last->prev = curr;
+    last->next = NULL;
+    size++;
+
+    return true;
 }
 
 bool DronesManager::remove(unsigned int index) {

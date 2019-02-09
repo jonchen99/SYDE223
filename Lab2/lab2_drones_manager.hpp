@@ -2,6 +2,7 @@
 #define DRONES_MANAGER_HPP
 #include <string>
 #include <iostream>
+#include <cstdlib>
 using namespace std;
 
 // PURPOSE: Models a container that stores individual drone records

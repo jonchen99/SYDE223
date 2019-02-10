@@ -82,6 +82,7 @@ public:
         ASSERT_TRUE(manager1.get_size() == 4)
         ASSERT_TRUE(manager1.select(0) == DronesManager::DroneRecord(400) && manager1.select(1) == DronesManager::DroneRecord(300) && manager1.select(2) == DronesManager::DroneRecord(200))
         ASSERT_TRUE(manager1.select(3) == DronesManager::DroneRecord(100))
+        ASSERT_TRUE(manager1.first->prev == NULL && manager1.last->next == NULL)
 
         return true;
 	}
@@ -95,11 +96,13 @@ public:
     // JONATHAN
 	// PURPOSE: try to remove too many elements, then add a few elements
 	bool test8() {
-        DronesManager manager1;
+        DronesManager manager1,manager2;
         manager1.insert_front(DronesManager::DroneRecord(100));
         manager1.insert(DronesManager::DroneRecord(200),1);
         manager1.insert(DronesManager::DroneRecord(300),2);
         manager1.insert_back(DronesManager::DroneRecord(400));
+        manager2.insert_front(DronesManager::DroneRecord(200));
+        manager2.insert_back(DronesManager::DroneRecord(300));
 
         ASSERT_TRUE(manager1.get_size() == 4)
         ASSERT_TRUE(manager1.remove(3))
@@ -121,7 +124,8 @@ public:
         ASSERT_FALSE(manager1.remove(4) && manager1.remove(1000) && manager1.remove(-1))
         ASSERT_TRUE(manager1.remove(0) && manager1.remove(2))
         ASSERT_TRUE(manager1.select(0) == 200 && manager1.select(1) == 300)
-
+        ASSERT_TRUE(manager1.first->droneID == manager2.first->droneID && manager1.last->droneID == manager2.last->droneID)
+        ASSERT_TRUE(manager1.first->next->droneID == manager2.select(1) && manager1.last->next == NULL && manager1.first->prev == NULL)
         return true;
 	}
 
@@ -145,7 +149,7 @@ public:
         manager1.insert(DronesManager::DroneRecord(300),2);
         manager1.insert_back(DronesManager::DroneRecord(400));
         manager1.insert_sorted_asc(DronesManager::DroneRecord(350));
-        manager1.print();
+        //manager1.print();
 
         ASSERT_TRUE(manager1.get_size() == 4)
         //ASSERT_TRUE(manager1.select(0) == DronesManager::DroneRecord(100) && manager1.select(1) == DronesManager::DroneRecord(200) && manager1.select(2) == DronesManager::DroneRecord(300))

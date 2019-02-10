@@ -266,9 +266,9 @@ bool DronesManager::replace(unsigned int index, DroneRecord value) {
         }
         tmp = curr->prev;
         tmp->next = &value;
-        tmp->next->next = curr;
-        curr->prev = tmp->next;
-        size++;
+        tmp->next->next = curr->next;
+        curr->next->prev = tmp->next;
+        tmp->next->prev = tmp;
         replace_valid = true;
     }
 
@@ -287,7 +287,7 @@ bool DronesManager::reverse_list() {
         }
         curr = tmp;
     }
-    return false;
+    return true;
 }
 
 bool DronesManagerSorted::is_sorted_asc() const {

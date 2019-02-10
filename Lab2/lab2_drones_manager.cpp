@@ -31,12 +31,6 @@ bool operator==(const DronesManager::DroneRecord& lhs, const DronesManager::Dron
 }
 
 unsigned int DronesManager::get_size() const {
-//	int count = 0;
-//	DroneRecord *cur_ptr = first;
-//	while (cur_ptr -> next) {
-//		count++;
-//		cur_ptr = cur_ptr -> next;
-//	}
 	return size;
 }
 
@@ -47,10 +41,11 @@ bool DronesManager::empty() const {
 DronesManager::DroneRecord DronesManager::select(unsigned int index) const {
     DroneRecord *curr = first;
     DroneRecord return_object;
-	if (index > size || index < 0)
-		return_object = *last;
-	else if (empty())
+
+    if (empty())
         return_object = DroneRecord(0);
+    else if (index >= size || index < 0)
+        return_object = *last;
 	else {
         for (int i = 0; i < index; i++)
             curr = curr -> next;
@@ -82,32 +77,26 @@ unsigned int DronesManager::search(DroneRecord value) const {
     return return_value;
 }
 
-//NEEDS TO BE FIXED: prints the address instead of the value
 void DronesManager::print() const {
     DroneRecord *curr = first;
     for (int i = 0; i < size; i++) {
         cout << i+1 << " element is " << curr->droneID << endl;
         if (curr->next != NULL) {
-            cout << "Current -> next != NULL" << endl;
             curr = curr->next;
-
-
         }
     }
 }
 
-//not sure if this is right, may need to set last. Also can you use insert to insert front or insert back?
+//try to get insert_front and insert_back to work here
 bool DronesManager::insert(DroneRecord value, unsigned int index) {
 	DroneRecord *curr = first;
     DroneRecord *tmp;
     bool insert_valid;
 
     if (index > size || index < 0) {
-        cout << "Case 1" << endl;
         insert_valid = false;
 
     } else if (index == 0) {
-        cout << "Case 2" << endl;
 //        insert_front(value);
 //        insert_valid = true;
         if (empty()) {
@@ -124,7 +113,6 @@ bool DronesManager::insert(DroneRecord value, unsigned int index) {
         size++;
         insert_valid = true;
     } else if (index == size) {
-        cout << "Case 3" << endl;
         curr = last;
         if (empty()) {
             last = &value;
@@ -140,7 +128,6 @@ bool DronesManager::insert(DroneRecord value, unsigned int index) {
         size++;
         insert_valid = true;
     } else {
-        cout << "Case 4" << endl;
 
         for (unsigned int i = 0; i < index - 1; i++) {
             curr = curr->next;
@@ -158,7 +145,6 @@ bool DronesManager::insert(DroneRecord value, unsigned int index) {
     return insert_valid;
 }
 
-//prints the memory address instead of printing the dereferenced value
 bool DronesManager::insert_front(DroneRecord value) {
     DroneRecord *curr = first;
     if (empty()) {
@@ -173,7 +159,6 @@ bool DronesManager::insert_front(DroneRecord value) {
         first = &value;
     }
     size++;
-
     return true;
 }
 
@@ -198,7 +183,7 @@ bool DronesManager::remove(unsigned int index) {
     DroneRecord *curr = first;
     DroneRecord *tmp;
     bool remove_valid;
-    if (empty() || index > size || index < 0) {
+    if (empty() || index >= size || index < 0) {
         remove_valid = false;
     } else if (index == 0) {
         remove_front();
@@ -214,7 +199,7 @@ bool DronesManager::remove(unsigned int index) {
         tmp->next = curr->next;
         tmp = curr->next;
         tmp->prev = curr->prev;
-        delete curr;
+        //delete curr;
         size--;
         remove_valid = true;
     }
@@ -231,7 +216,7 @@ bool DronesManager::remove_front() {
     } else if (size == 1)  {
         first = NULL;
         last = NULL;
-        delete curr;
+        //delete curr;
         size--;
         remove_front_valid = true;
     } else {
@@ -239,7 +224,7 @@ bool DronesManager::remove_front() {
         tmp->prev = NULL;
         first = tmp;
         size--;
-        delete curr;
+        //delete curr;
         remove_front_valid = true;
     }
     return remove_front_valid;
@@ -255,14 +240,14 @@ bool DronesManager::remove_back() {
         first = NULL;
         last = NULL;
         size--;
-        delete curr;
+        //delete curr;
         remove_back_valid = true;
     } else {
         tmp = curr->prev;
         tmp->next = NULL;
         last = tmp;
         size--;
-        delete curr;
+        //delete curr;
         remove_back_valid = true;
     }
 
@@ -313,8 +298,9 @@ bool DronesManagerSorted::is_sorted_asc() const {
         is_sorted = true;
     else {
         for (int i = 0; i < size-1 && is_sorted; i++) {
-            if (curr->droneID < curr->next->droneID)
+            if (curr->droneID > curr->next->droneID)
                 is_sorted = false;
+            curr = curr->next;
         }
     }
 	return is_sorted;
@@ -325,11 +311,13 @@ bool DronesManagerSorted::is_sorted_desc() const {
     DroneRecord *curr = last;
 
     if (empty())
-        return true;
-
-    for (int i = size-1; i > 0 && is_sorted; i--) {
-        if (curr->droneID > curr->prev->droneID)
-            is_sorted = false;
+        is_sorted = true;
+    else {
+        for (int i = 0; i < size-1 && is_sorted; i++) {
+            if (curr->droneID < curr->prev->droneID)
+                is_sorted = false;
+            curr = curr->prev;
+        }
     }
     return is_sorted;
 }
@@ -347,10 +335,11 @@ bool DronesManagerSorted::insert_sorted_asc(DroneRecord val) {
         sorted_asc = true;
 
     } else {
-        for (int i = 0; i < size-1 && dont_stop_loop; i++) {
+        for (int i = 0; i < size && dont_stop_loop; i++) {
             if (val.droneID > curr->droneID) {
                 curr = curr->next;
             } else {
+                //this won't work because it can't call insert
                 insert(val, i);
                 sorted_asc = true;
                 dont_stop_loop = false;

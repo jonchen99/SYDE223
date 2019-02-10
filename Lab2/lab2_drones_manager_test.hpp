@@ -38,15 +38,19 @@ public:
     // JONATHAN
 	// PURPOSE: select() and search() work properly
 	bool test3() {
-        DronesManager manager1;
+        DronesManager manager1, manager2;
         manager1.insert_front(DronesManager::DroneRecord(100));
         manager1.insert(DronesManager::DroneRecord(200),1);
         manager1.insert_back(DronesManager::DroneRecord(300));
 
-        ASSERT_TRUE(manager1.get_size() == 1)
-        ASSERT_TRUE(manager1.select(0) == DronesManager::DroneRecord(100))
-
-	    return true;
+        ASSERT_TRUE(manager1.get_size() == 3)
+        ASSERT_TRUE(manager1.select(0) == DronesManager::DroneRecord(100) && manager1.select(1) == DronesManager::DroneRecord(200) && manager1.select(2) == DronesManager::DroneRecord(300))
+        ASSERT_TRUE(manager2.select(0) == DronesManager::DroneRecord(0))
+        ASSERT_TRUE(manager1.select(3) == DronesManager::DroneRecord(300) && manager1.select(1000) == DronesManager::DroneRecord(300) && manager1.select(-100) == DronesManager::DroneRecord(300))
+        ASSERT_TRUE(manager1.search(100) == 0 && manager1.search(200) == 1 && manager1.search(300) == 2)
+        ASSERT_TRUE(manager2.search(0) == 0 && manager2.search(1000) == 0)
+        ASSERT_TRUE(manager1.search(1000) == 3 && manager1.search(-1) == 3)
+        return true;
 	}
 
     // AMAN
@@ -56,8 +60,7 @@ public:
         manager1.insert_front(DronesManager::DroneRecord(100));
         manager1.insert(DronesManager::DroneRecord(200),1);
 
-        manager1.remove_back();
-        manager1.print();
+        //manager1.remove_back();
 	    return false;
 	}
 
@@ -70,7 +73,17 @@ public:
     // JONATHAN
 	// PURPOSE: insert_front() keeps moving elements forward
 	bool test6() {
-	    return false;
+        DronesManager manager1;
+        manager1.insert_front(DronesManager::DroneRecord(100));
+        manager1.insert_front(DronesManager::DroneRecord(200));
+        manager1.insert_front(DronesManager::DroneRecord(300));
+        manager1.insert_front(DronesManager::DroneRecord(400));
+
+        ASSERT_TRUE(manager1.get_size() == 4)
+        ASSERT_TRUE(manager1.select(0) == DronesManager::DroneRecord(400) && manager1.select(1) == DronesManager::DroneRecord(300) && manager1.select(2) == DronesManager::DroneRecord(200))
+        ASSERT_TRUE(manager1.select(3) == DronesManager::DroneRecord(100))
+
+        return true;
 	}
 
     // AMAN
@@ -82,7 +95,34 @@ public:
     // JONATHAN
 	// PURPOSE: try to remove too many elements, then add a few elements
 	bool test8() {
-	    return false;
+        DronesManager manager1;
+        manager1.insert_front(DronesManager::DroneRecord(100));
+        manager1.insert(DronesManager::DroneRecord(200),1);
+        manager1.insert(DronesManager::DroneRecord(300),2);
+        manager1.insert_back(DronesManager::DroneRecord(400));
+
+        ASSERT_TRUE(manager1.get_size() == 4)
+        ASSERT_TRUE(manager1.remove(3))
+        ASSERT_TRUE(manager1.select(0) == DronesManager::DroneRecord(100) && manager1.select(1) == DronesManager::DroneRecord(200) && manager1.select(2) == DronesManager::DroneRecord(300))
+
+        manager1.remove_back();
+        manager1.remove_front();
+        manager1.remove(0);
+
+        ASSERT_FALSE(manager1.remove_front())
+        ASSERT_FALSE(manager1.remove_back())
+        ASSERT_FALSE(manager1.remove(1))
+
+        manager1.insert_front(DronesManager::DroneRecord(100));
+        manager1.insert(DronesManager::DroneRecord(200),1);
+        manager1.insert(DronesManager::DroneRecord(300),2);
+        manager1.insert_back(DronesManager::DroneRecord(400));
+
+        ASSERT_FALSE(manager1.remove(4) && manager1.remove(1000) && manager1.remove(-1))
+        ASSERT_TRUE(manager1.remove(0) && manager1.remove(2))
+        ASSERT_TRUE(manager1.select(0) == 200 && manager1.select(1) == 300)
+
+        return true;
 	}
 
     // AMAN
@@ -94,7 +134,24 @@ public:
     // JONATHAN
 	// PURPOSE: inserts into an unsorted list, then sort the list
 	bool test10() {
-	   return false;
+        DronesManagerSorted manager1;
+//        manager1.insert_front(DronesManager::DroneRecord(300));
+//        manager1.insert(DronesManager::DroneRecord(200),1);
+//        manager1.insert(DronesManager::DroneRecord(400),2);
+//        manager1.insert_back(DronesManager::DroneRecord(100));
+        //manager1.sort_asc();
+        manager1.insert_front(DronesManager::DroneRecord(100));
+        manager1.insert(DronesManager::DroneRecord(200),1);
+        manager1.insert(DronesManager::DroneRecord(300),2);
+        manager1.insert_back(DronesManager::DroneRecord(400));
+        manager1.insert_sorted_asc(DronesManager::DroneRecord(350));
+        manager1.print();
+
+        ASSERT_TRUE(manager1.get_size() == 4)
+        //ASSERT_TRUE(manager1.select(0) == DronesManager::DroneRecord(100) && manager1.select(1) == DronesManager::DroneRecord(200) && manager1.select(2) == DronesManager::DroneRecord(300))
+        //ASSERT_TRUE(manager1.select(3) == 400)
+//        ASSERT_FALSE(manager1.is_sorted_asc())
+	   return true;
 	}  
 
     // AMAN

@@ -92,6 +92,7 @@ void DronesManager::print() const {
 bool DronesManager::insert(DroneRecord value, unsigned int index) {
 	DroneRecord *curr = first;
     DroneRecord *tmp;
+    DroneRecord *new_value = new DroneRecord(value);
     bool insert_valid;
 
     if (index > size || index < 0) {
@@ -104,13 +105,12 @@ bool DronesManager::insert(DroneRecord value, unsigned int index) {
         insert_back(value);
         insert_valid = true;
     } else {
-
         for (unsigned int i = 0; i < index - 1; i++) {
             curr = curr->next;
         }
 
         tmp = curr;
-        curr = &value;
+        curr = new_value;
         curr->prev = tmp;
         curr->next = tmp->next;
         tmp->next = curr;
@@ -306,6 +306,7 @@ bool DronesManagerSorted::insert_sorted_asc(DroneRecord val) {
     DroneRecord *curr = first;
     bool sorted_asc;
     bool dont_stop_loop = true;
+    int index = 0;
 
     if (!is_sorted_asc()) {
         sorted_asc = false;
@@ -316,15 +317,17 @@ bool DronesManagerSorted::insert_sorted_asc(DroneRecord val) {
 
     } else {
         for (int i = 0; i < size && dont_stop_loop; i++) {
+
             if (val.droneID > curr->droneID) {
                 curr = curr->next;
+                index = size;
             } else {
-                //this won't work because it can't call insert
-                insert(val, i);
+                index = i;
                 sorted_asc = true;
                 dont_stop_loop = false;
             }
         }
+        insert(val, index);
     }
 
 	return sorted_asc;
@@ -334,6 +337,8 @@ bool DronesManagerSorted::insert_sorted_desc(DroneRecord val) {
     DroneRecord *curr = first;
     bool sorted_desc;
     bool dont_stop_loop = true;
+    int index = 0;
+
 
     if (!is_sorted_desc()) {
         sorted_desc = false;
@@ -344,12 +349,14 @@ bool DronesManagerSorted::insert_sorted_desc(DroneRecord val) {
         for (int i = size-1; i > 0 && dont_stop_loop; i--) {
             if (val.droneID < curr->droneID) {
                 curr = curr->prev;
+                index = size;
             } else {
-                insert(val,i);
+                index = i;
                 sorted_desc = true;
                 dont_stop_loop = false;
             }
         }
+        insert(val,index);
     }
 
 	return sorted_desc;
@@ -357,14 +364,45 @@ bool DronesManagerSorted::insert_sorted_desc(DroneRecord val) {
 
 void DronesManagerSorted::sort_asc() {
     DroneRecord *curr = first;
-    DroneRecord *next;
+    DroneRecord *next = curr->next;
+    DroneRecord *tmp;
+    DroneRecord *iterator = first;
+    int i = 0;
+    int j = 0;
+
+//    for (int i = 0; i < size; i++) {
+//        while (curr->next != NULL) {
+//            if (curr->droneID > curr->next->droneID) {
+//                tmp = curr;
+//                curr->next = tmp;
+//                curr = curr->next;
+//            }
+//            curr = curr->next;
+//        }
+//        iterator = first;
+//    }
+//
+//    for (i = 1; i < size-1; i++) {
+//        key = next;
+//        j = i-1;
+//        while (j >= 0 && curr->droneID > key->droneID) {
+//            curr->next->droneID = curr->droneID;
+//            j = j-1;
+//            if (curr->prev != NULL)
+//              curr = curr->prev;
+//        }
+//        curr->next=key;
+//    }
+
     while (curr != NULL) {
         next = curr->next;
         curr->prev = NULL;
         curr->next = NULL;
         insert_sorted_asc(*curr);
+
         curr = next;
     }
+
 }
     
 void DronesManagerSorted::sort_desc() {

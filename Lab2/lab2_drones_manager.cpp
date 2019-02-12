@@ -59,6 +59,7 @@ unsigned int DronesManager::search(DroneRecord value) const {
     DroneRecord *curr = first;
     bool is_found = false;
     unsigned int return_value = 0;
+
     if (empty())
 	    return_value = 0;
 
@@ -97,35 +98,10 @@ bool DronesManager::insert(DroneRecord value, unsigned int index) {
         insert_valid = false;
 
     } else if (index == 0) {
-//        insert_front(value);
-//        insert_valid = true;
-        if (empty()) {
-            first = &value;
-            first->next = NULL;
-            first->prev = NULL;
-            last = first;
-        } else {
-            value.next = curr;
-            value.prev = NULL;
-            curr->prev = &value;
-            first = &value;
-        }
-        size++;
+        insert_front(value);
         insert_valid = true;
     } else if (index == size) {
-        curr = last;
-        if (empty()) {
-            last = &value;
-            last->next = NULL;
-            last->prev = NULL;
-            first = last;
-        } else {
-            value.next = NULL;
-            value.prev = curr;
-            curr->next = &value;
-            last = &value;
-        }
-        size++;
+        insert_back(value);
         insert_valid = true;
     } else {
 
@@ -147,33 +123,37 @@ bool DronesManager::insert(DroneRecord value, unsigned int index) {
 
 bool DronesManager::insert_front(DroneRecord value) {
     DroneRecord *curr = first;
+    DroneRecord *new_value = new DroneRecord(value);
+
     if (empty()) {
-        first = &value;
+        first = new_value;
         first->next = NULL;
         first->prev = NULL;
         last = first;
     } else {
-        value.next = curr;
-        value.prev = NULL;
-        curr->prev = &value;
-        first = &value;
+        new_value -> next = curr;
+        new_value -> prev = NULL;
+        curr->prev = new_value;
+        first = new_value;
     }
     size++;
+
     return true;
 }
 
 bool DronesManager::insert_back(DroneRecord value) {
     DroneRecord *curr = last;
+    DroneRecord *new_value = new DroneRecord(value);
     if (empty()) {
-        last = &value;
+        last = new_value;
         last->next = NULL;
         last->prev = NULL;
         first = last;
     } else {
-        curr->next = &value;
-        value.next = NULL;
-        value.prev = curr;
-        last = &value;
+        curr->next = new_value;
+        new_value -> next = NULL;
+        new_value -> prev = curr;
+        last = new_value;
     }
     size++;
     return true;

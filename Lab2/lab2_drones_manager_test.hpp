@@ -20,7 +20,7 @@ public:
 	
 	// PURPOSE: insert_front() and insert_back() on zero-element list
 	bool test2() {
-		DronesManager manager1, manager2;
+        DronesManager manager1, manager2;
 		manager1.insert_front(DronesManager::DroneRecord(100));
 		manager2.insert_back(DronesManager::DroneRecord(100));
 
@@ -32,8 +32,7 @@ public:
 		ASSERT_TRUE(manager1.select(0) == manager2.select(0) && manager1.select(0) == DronesManager::DroneRecord(100))
 	    return true;
 	}
-	
-	// TODO: Implement all of the test cases below
+
 
     // JONATHAN
 	// PURPOSE: select() and search() work properly
@@ -56,12 +55,41 @@ public:
     // AMAN
 	// PURPOSE: remove_front() and remove_back() on one-element list
 	bool test4() {
-        DronesManager manager1;
-        manager1.insert_front(DronesManager::DroneRecord(100));
-        manager1.insert(DronesManager::DroneRecord(200),1);
+        DronesManager manager1, manager2, manager3, manager4, manager5, manager6;
 
-        //manager1.remove_back();
-	    return false;
+        //Test remove front after insert_front
+        manager1.insert_front(DronesManager::DroneRecord(100));
+        manager1.remove_front();
+
+        //Test remove back after insert_front
+        manager2.insert_front(DronesManager::DroneRecord(100));
+        manager2.remove_back();
+
+        //Test remove front after insert_back
+        manager3.insert_back(DronesManager::DroneRecord(100));
+        manager3.remove_front();
+
+        //Test remove back after insert_back
+        manager4.insert_back(DronesManager::DroneRecord(100));
+        manager4.remove_back();
+
+        //Test remove front after insert
+        manager5.insert(DronesManager::DroneRecord(100),0);
+        manager5.remove_front();
+
+        //Test remove back after insert
+        manager6.insert(DronesManager::DroneRecord(100),0);
+        manager6.remove_back();
+
+        ASSERT_TRUE(manager1.get_size() == 0)
+        ASSERT_TRUE(manager2.get_size() == 0)
+        ASSERT_TRUE(manager3.get_size() == 0)
+        ASSERT_TRUE(manager4.get_size() == 0)
+        ASSERT_TRUE(manager5.get_size() == 0)
+        ASSERT_TRUE(manager6.get_size() == 0)
+
+
+        return true;
 	}
 
     // AMAN

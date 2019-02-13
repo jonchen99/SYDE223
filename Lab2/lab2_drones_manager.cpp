@@ -240,7 +240,11 @@ bool DronesManager::replace(unsigned int index, DroneRecord value) {
     bool replace_valid;
     if (empty() || index > size || index < 0) {
         replace_valid = false;
-    }  else {
+    }  else if (index == 0) {
+        //need to implement
+    } else if (index == size-1) {
+        //need to implement
+    } else {
         for (int i = 0; i < index; i++) {
             curr = curr->next;
         }
@@ -273,7 +277,6 @@ bool DronesManager::reverse_list() {
 bool DronesManagerSorted::is_sorted_asc() const {
     bool is_sorted = true;
     DroneRecord *curr = first;
-
     if (empty())
         is_sorted = true;
     else {
@@ -365,7 +368,7 @@ bool DronesManagerSorted::insert_sorted_desc(DroneRecord val) {
 void DronesManagerSorted::sort_asc() {
     DroneRecord *curr = first;
     DroneRecord *next = curr->next;
-    DroneRecord *tmp;
+    DroneRecord *tmp = new DroneRecord();
     DroneRecord *iterator = first;
     int i = 0;
     int j = 0;
@@ -394,14 +397,17 @@ void DronesManagerSorted::sort_asc() {
 //        curr->next=key;
 //    }
 
-    while (curr != NULL) {
-        next = curr->next;
-        curr->prev = NULL;
-        curr->next = NULL;
-        insert_sorted_asc(*curr);
 
+    while (curr != NULL) {
+        tmp = curr;
+        next = curr->next;
+        //insert_sorted_asc(*curr);
+//        curr->prev = NULL;
+//        curr->next = NULL;
         curr = next;
     }
+
+
 
 }
     

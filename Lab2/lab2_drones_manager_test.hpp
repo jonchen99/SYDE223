@@ -166,7 +166,7 @@ public:
     // JONATHAN
 	// PURPOSE: inserts into an unsorted list, then sort the list
 	bool test10() {
-        DronesManagerSorted manager1;
+        DronesManagerSorted manager1,manager2;
         manager1.insert_front(DronesManager::DroneRecord(300));
         manager1.insert(DronesManager::DroneRecord(200),1);
         manager1.insert(DronesManager::DroneRecord(400),2);
@@ -178,7 +178,7 @@ public:
         manager1.sort_asc();
         manager1.print();
 
-        ASSERT_TRUE(manager1.get_size() == 5)
+        ASSERT_TRUE(manager1.get_size() == 4)
 //        ASSERT_TRUE(manager1.select(0) == DronesManager::DroneRecord(100) && manager1.select(1) == DronesManager::DroneRecord(200) && manager1.select(2) == DronesManager::DroneRecord(300))
 //        ASSERT_TRUE(manager1.select(3) == 350 && manager1.select())
 //        ASSERT_FALSE(manager1.is_sorted_asc())

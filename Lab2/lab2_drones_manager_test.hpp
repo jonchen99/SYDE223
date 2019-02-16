@@ -21,15 +21,15 @@ public:
 	// PURPOSE: insert_front() and insert_back() on zero-element list
 	bool test2() {
         DronesManager manager1, manager2;
-//		manager1.insert_front(DronesManager::DroneRecord(100));
-//		manager2.insert_back(DronesManager::DroneRecord(100));
-//
-//		ASSERT_TRUE(manager1.get_size() == manager2.get_size() && manager1.get_size() == 1)
-//		ASSERT_TRUE(manager1.first != NULL && manager1.first == manager1.last)
-//		ASSERT_TRUE(manager2.first != NULL && manager2.first == manager2.last)
-//		ASSERT_TRUE(manager1.first->prev == NULL && manager1.last->next == NULL)
-//		ASSERT_TRUE(manager2.first->prev == NULL && manager2.last->next == NULL)
-//		ASSERT_TRUE(manager1.select(0) == manager2.select(0) && manager1.select(0) == DronesManager::DroneRecord(100))
+		manager1.insert_front(DronesManager::DroneRecord(100));
+		manager2.insert_back(DronesManager::DroneRecord(100));
+
+		ASSERT_TRUE(manager1.get_size() == manager2.get_size() && manager1.get_size() == 1)
+		ASSERT_TRUE(manager1.first != NULL && manager1.first == manager1.last)
+		ASSERT_TRUE(manager2.first != NULL && manager2.first == manager2.last)
+		ASSERT_TRUE(manager1.first->prev == NULL && manager1.last->next == NULL)
+		ASSERT_TRUE(manager2.first->prev == NULL && manager2.last->next == NULL)
+		ASSERT_TRUE(manager1.select(0) == manager2.select(0) && manager1.select(0) == DronesManager::DroneRecord(100))
 	    return true;
 	}
 
@@ -37,57 +37,56 @@ public:
     // JONATHAN
 	// PURPOSE: select() and search() work properly
 	bool test3() {
-//        DronesManager manager1, manager2;
-//        manager1.insert_front(DronesManager::DroneRecord(100));
-//        manager1.insert(DronesManager::DroneRecord(200),1);
-//        manager1.insert_back(DronesManager::DroneRecord(300));
-//
-//        ASSERT_TRUE(manager1.get_size() == 3)
-//        ASSERT_TRUE(manager1.select(0) == DronesManager::DroneRecord(100) && manager1.select(1) == DronesManager::DroneRecord(200) && manager1.select(2) == DronesManager::DroneRecord(300))
-//        ASSERT_TRUE(manager2.select(0) == DronesManager::DroneRecord(0))
-//        ASSERT_TRUE(manager1.select(3) == DronesManager::DroneRecord(300) && manager1.select(1000) == DronesManager::DroneRecord(300) && manager1.select(-100) == DronesManager::DroneRecord(300))
-//        ASSERT_TRUE(manager1.search(100) == 0 && manager1.search(200) == 1 && manager1.search(300) == 2)
-//        ASSERT_TRUE(manager2.search(0) == 0 && manager2.search(1000) == 0)
-//        ASSERT_TRUE(manager1.search(1000) == 3 && manager1.search(-1) == 3)
+        DronesManager manager1, manager2;
+        manager1.insert_front(DronesManager::DroneRecord(100));
+        manager1.insert(DronesManager::DroneRecord(200),1);
+        manager1.insert_back(DronesManager::DroneRecord(300));
+
+        ASSERT_TRUE(manager1.get_size() == 3)
+        ASSERT_TRUE(manager1.select(0) == DronesManager::DroneRecord(100) && manager1.select(1) == DronesManager::DroneRecord(200) && manager1.select(2) == DronesManager::DroneRecord(300))
+        ASSERT_TRUE(manager2.select(0) == DronesManager::DroneRecord(0))
+        ASSERT_TRUE(manager1.select(3) == DronesManager::DroneRecord(300) && manager1.select(1000) == DronesManager::DroneRecord(300) && manager1.select(-100) == DronesManager::DroneRecord(300))
+        ASSERT_TRUE(manager1.search(100) == 0 && manager1.search(200) == 1 && manager1.search(300) == 2)
+        ASSERT_TRUE(manager2.search(0) == 0 && manager2.search(1000) == 0)
+        ASSERT_TRUE(manager1.search(1000) == 3 && manager1.search(-1) == 3)
         return true;
 	}
 
     // AMAN
 	// PURPOSE: remove_front() and remove_back() on one-element list
 	bool test4() {
-//        DronesManager manager1, manager2, manager3, manager4, manager5, manager6;
-//
-//        //Test remove front after insert_front
-//        manager1.insert_front(DronesManager::DroneRecord(100));
-//        manager1.remove_front();
-//
-//        //Test remove back after insert_front
-//        manager2.insert_front(DronesManager::DroneRecord(100));
-//        manager2.remove_back();
-//
-//        //Test remove front after insert_back
-//        manager3.insert_back(DronesManager::DroneRecord(100));
-//        manager3.remove_front();
-//
-//        //Test remove back after insert_back
-//        manager4.insert_back(DronesManager::DroneRecord(100));
-//        manager4.remove_back();
-//
-//        //Test remove front after insert
-//        manager5.insert(DronesManager::DroneRecord(100),0);
-//        manager5.remove_front();
-//
-//        //Test remove back after insert
-//        manager6.insert(DronesManager::DroneRecord(100),0);
-//        manager6.remove_back();
-//
-//        ASSERT_TRUE(manager1.get_size() == 0)
-//        ASSERT_TRUE(manager2.get_size() == 0)
-//        ASSERT_TRUE(manager3.get_size() == 0)
-//        ASSERT_TRUE(manager4.get_size() == 0)
-//        ASSERT_TRUE(manager5.get_size() == 0)
-//        ASSERT_TRUE(manager6.get_size() == 0)
+        DronesManager manager1, manager2, manager3, manager4, manager5, manager6;
 
+        //Test remove front after insert_front
+        manager1.insert_front(DronesManager::DroneRecord(100));
+        manager1.remove_front();
+
+        //Test remove back after insert_front
+        manager2.insert_front(DronesManager::DroneRecord(100));
+        manager2.remove_back();
+
+        //Test remove front after insert_back
+        manager3.insert_back(DronesManager::DroneRecord(100));
+        manager3.remove_front();
+
+        //Test remove back after insert_back
+        manager4.insert_back(DronesManager::DroneRecord(100));
+        manager4.remove_back();
+
+        //Test remove front after insert
+        manager5.insert(DronesManager::DroneRecord(100),0);
+        manager5.remove_front();
+
+        //Test remove back after insert
+        manager6.insert(DronesManager::DroneRecord(100),0);
+        manager6.remove_back();
+
+        ASSERT_TRUE(manager1.get_size() == 0)
+        ASSERT_TRUE(manager2.get_size() == 0)
+        ASSERT_TRUE(manager3.get_size() == 0)
+        ASSERT_TRUE(manager4.get_size() == 0)
+        ASSERT_TRUE(manager5.get_size() == 0)
+        ASSERT_TRUE(manager6.get_size() == 0)
 
         return true;
 	}
@@ -101,16 +100,16 @@ public:
     // JONATHAN
 	// PURPOSE: insert_front() keeps moving elements forward
 	bool test6() {
-//        DronesManager manager1;
-//        manager1.insert_front(DronesManager::DroneRecord(100));
-//        manager1.insert_front(DronesManager::DroneRecord(200));
-//        manager1.insert_front(DronesManager::DroneRecord(300));
-//        manager1.insert_front(DronesManager::DroneRecord(400));
-//
-//        ASSERT_TRUE(manager1.get_size() == 4)
-//        ASSERT_TRUE(manager1.select(0) == DronesManager::DroneRecord(400) && manager1.select(1) == DronesManager::DroneRecord(300) && manager1.select(2) == DronesManager::DroneRecord(200))
-//        ASSERT_TRUE(manager1.select(3) == DronesManager::DroneRecord(100))
-//        ASSERT_TRUE(manager1.first->prev == NULL && manager1.last->next == NULL)
+        DronesManager manager1;
+        manager1.insert_front(DronesManager::DroneRecord(100));
+        manager1.insert_front(DronesManager::DroneRecord(200));
+        manager1.insert_front(DronesManager::DroneRecord(300));
+        manager1.insert_front(DronesManager::DroneRecord(400));
+
+        ASSERT_TRUE(manager1.get_size() == 4)
+        ASSERT_TRUE(manager1.select(0) == DronesManager::DroneRecord(400) && manager1.select(1) == DronesManager::DroneRecord(300) && manager1.select(2) == DronesManager::DroneRecord(200))
+        ASSERT_TRUE(manager1.select(3) == DronesManager::DroneRecord(100))
+        ASSERT_TRUE(manager1.first->prev == NULL && manager1.last->next == NULL)
 
         return true;
 	}
@@ -124,36 +123,36 @@ public:
     // JONATHAN
 	// PURPOSE: try to remove too many elements, then add a few elements
 	bool test8() {
-//        DronesManager manager1,manager2;
-//        manager1.insert_front(DronesManager::DroneRecord(100));
-//        manager1.insert(DronesManager::DroneRecord(200),1);
-//        manager1.insert(DronesManager::DroneRecord(300),2);
-//        manager1.insert_back(DronesManager::DroneRecord(400));
-//        manager2.insert_front(DronesManager::DroneRecord(200));
-//        manager2.insert_back(DronesManager::DroneRecord(300));
-//
-//        ASSERT_TRUE(manager1.get_size() == 4)
-//        ASSERT_TRUE(manager1.remove(3))
-//        ASSERT_TRUE(manager1.select(0) == DronesManager::DroneRecord(100) && manager1.select(1) == DronesManager::DroneRecord(200) && manager1.select(2) == DronesManager::DroneRecord(300))
-//
-//        manager1.remove_back();
-//        manager1.remove_front();
-//        manager1.remove(0);
-//
-//        ASSERT_FALSE(manager1.remove_front())
-//        ASSERT_FALSE(manager1.remove_back())
-//        ASSERT_FALSE(manager1.remove(1))
-//
-//        manager1.insert_front(DronesManager::DroneRecord(100));
-//        manager1.insert(DronesManager::DroneRecord(200),1);
-//        manager1.insert(DronesManager::DroneRecord(300),2);
-//        manager1.insert_back(DronesManager::DroneRecord(400));
-//
-//        ASSERT_FALSE(manager1.remove(4) && manager1.remove(1000) && manager1.remove(-1))
-//        ASSERT_TRUE(manager1.remove(0) && manager1.remove(2))
-//        ASSERT_TRUE(manager1.select(0) == 200 && manager1.select(1) == 300)
-//        ASSERT_TRUE(manager1.first->droneID == manager2.first->droneID && manager1.last->droneID == manager2.last->droneID)
-//        ASSERT_TRUE(manager1.first->next->droneID == manager2.select(1) && manager1.last->next == NULL && manager1.first->prev == NULL)
+        DronesManager manager1,manager2;
+        manager1.insert_front(DronesManager::DroneRecord(100));
+        manager1.insert(DronesManager::DroneRecord(200),1);
+        manager1.insert(DronesManager::DroneRecord(300),2);
+        manager1.insert_back(DronesManager::DroneRecord(400));
+        manager2.insert_front(DronesManager::DroneRecord(200));
+        manager2.insert_back(DronesManager::DroneRecord(300));
+
+        ASSERT_TRUE(manager1.get_size() == 4)
+        ASSERT_TRUE(manager1.remove(3))
+        ASSERT_TRUE(manager1.select(0) == DronesManager::DroneRecord(100) && manager1.select(1) == DronesManager::DroneRecord(200) && manager1.select(2) == DronesManager::DroneRecord(300))
+
+        manager1.remove_back();
+        manager1.remove_front();
+        manager1.remove(0);
+
+        ASSERT_FALSE(manager1.remove_front())
+        ASSERT_FALSE(manager1.remove_back())
+        ASSERT_FALSE(manager1.remove(1))
+
+        manager1.insert_front(DronesManager::DroneRecord(100));
+        manager1.insert(DronesManager::DroneRecord(200),1);
+        manager1.insert(DronesManager::DroneRecord(300),2);
+        manager1.insert_back(DronesManager::DroneRecord(400));
+
+        ASSERT_FALSE(manager1.remove(4) && manager1.remove(1000) && manager1.remove(-1))
+        ASSERT_TRUE(manager1.remove(0) && manager1.remove(2))
+        ASSERT_TRUE(manager1.select(0) == 200 && manager1.select(1) == 300)
+        ASSERT_TRUE(manager1.first->droneID == manager2.first->droneID && manager1.last->droneID == manager2.last->droneID)
+        ASSERT_TRUE(manager1.first->next->droneID == manager2.select(1) && manager1.last->next == NULL && manager1.first->prev == NULL)
         return true;
 	}
 
@@ -179,6 +178,8 @@ public:
         manager1.print();
 
         ASSERT_TRUE(manager1.get_size() == 4)
+        ASSERT_TRUE(manager1.first->droneID == 100 && manager1.first->prev == NULL)
+        ASSERT_TRUE(manager1.last->droneID == 400 && manager1.last->next == NULL && manager1.last->prev->droneID == manager1.select(2))
 //        ASSERT_TRUE(manager1.select(0) == DronesManager::DroneRecord(100) && manager1.select(1) == DronesManager::DroneRecord(200) && manager1.select(2) == DronesManager::DroneRecord(300))
 //        ASSERT_TRUE(manager1.select(3) == 350 && manager1.select())
 //        ASSERT_FALSE(manager1.is_sorted_asc())

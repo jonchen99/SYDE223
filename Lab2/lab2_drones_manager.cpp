@@ -366,49 +366,40 @@ bool DronesManagerSorted::insert_sorted_desc(DroneRecord val) {
 }
 
 void DronesManagerSorted::sort_asc() {
-    DroneRecord *curr = first;
-    DroneRecord *next = curr->next;
+    DroneRecord *curr;
+    DroneRecord *prev = new DroneRecord();
+    DroneRecord *next = new DroneRecord();
     DroneRecord *tmp = new DroneRecord();
-    DroneRecord *iterator = first;
-    int i = 0;
-    int j = 0;
 
-//    for (int i = 0; i < size; i++) {
-//        while (curr->next != NULL) {
-//            if (curr->droneID > curr->next->droneID) {
-//                tmp = curr;
-//                curr->next = tmp;
-//                curr = curr->next;
-//            }
-//            curr = curr->next;
-//        }
-//        iterator = first;
-//    }
-//
-//    for (i = 1; i < size-1; i++) {
-//        key = next;
-//        j = i-1;
-//        while (j >= 0 && curr->droneID > key->droneID) {
-//            curr->next->droneID = curr->droneID;
-//            j = j-1;
-//            if (curr->prev != NULL)
-//              curr = curr->prev;
-//        }
-//        curr->next=key;
-//    }
-
-
-    while (curr != NULL) {
-        tmp = curr;
-        next = curr->next;
-        //insert_sorted_asc(*curr);
-//        curr->prev = NULL;
-//        curr->next = NULL;
-        curr = next;
+    //need to reassign prev
+    for (int i = 0; i < size; i++) {
+        curr = first;
+        for (int j = 0; j < size - i - 1; j++) {
+            if (curr->droneID > curr->next->droneID) {
+                next = curr->next;
+                curr->next = next->next;
+                next->next = curr;
+                if (curr == first) {
+                    first = next;
+                    curr = next;
+                } else {
+                    curr = next;
+                    tmp->next = next;
+                }
+            }
+            tmp = curr;
+            curr = curr->next;
+        }
     }
 
-
-
+    //last->prev isn't functioning
+    curr = first;
+    for (int i = 0; i < size-1; i++) {
+        curr = curr->next;
+    }
+    last = curr;
+    last->next == NULL;
+    last->prev = curr->prev;
 }
     
 void DronesManagerSorted::sort_desc() {

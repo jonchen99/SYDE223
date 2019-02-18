@@ -41,7 +41,6 @@ public:
         manager1.insert_front(DronesManager::DroneRecord(100));
         manager1.insert(DronesManager::DroneRecord(200),1);
         manager1.insert_back(DronesManager::DroneRecord(300));
-
         ASSERT_TRUE(manager1.get_size() == 3)
         ASSERT_TRUE(manager1.select(0) == DronesManager::DroneRecord(100) && manager1.select(1) == DronesManager::DroneRecord(200) && manager1.select(2) == DronesManager::DroneRecord(300))
         ASSERT_TRUE(manager2.select(0) == DronesManager::DroneRecord(0))
@@ -91,7 +90,7 @@ public:
         return true;
 	}
 
-    // AMAN
+    // TODO: AMAN
 	// PURPOSE: replace() and reverse_list() work properly
 	bool test5() {
 	    return false;
@@ -114,6 +113,7 @@ public:
         return true;
 	}
 
+    // TODO: AMAN
     // AMAN
 	// PURPOSE: inserting at different positions in the list
 	bool test7() {
@@ -156,6 +156,7 @@ public:
         return true;
 	}
 
+    // TODO: AMAN
     // AMAN
 	// PURPOSE: lots of inserts and deletes, some of them invalid
 	bool test9() {
@@ -170,32 +171,50 @@ public:
         manager1.insert(DronesManager::DroneRecord(200),1);
         manager1.insert(DronesManager::DroneRecord(400),2);
         manager1.insert_back(DronesManager::DroneRecord(100));
-//
-//        manager1.insert_front(DronesManager::DroneRecord(100));
-//        manager1.insert(DronesManager::DroneRecord(200),1);
-//        manager1.insert_sorted_asc(DronesManager::DroneRecord(350));
         manager1.sort_asc();
-        manager1.print();
+
+        manager2.insert_front(DronesManager::DroneRecord(200));
+        manager2.insert(DronesManager::DroneRecord(300),1);
+        manager2.insert(DronesManager::DroneRecord(100),2);
+        manager2.insert_back(DronesManager::DroneRecord(400));
+        manager2.sort_desc();
 
         ASSERT_TRUE(manager1.get_size() == 4)
-        ASSERT_TRUE(manager1.first->droneID == 100 && manager1.first->prev == NULL)
+        ASSERT_TRUE(manager1.first->droneID == 100 && manager1.first->prev == NULL && manager1.first->next->droneID == manager1.select(1))
         ASSERT_TRUE(manager1.last->droneID == 400 && manager1.last->next == NULL && manager1.last->prev->droneID == manager1.select(2))
-//        ASSERT_TRUE(manager1.select(0) == DronesManager::DroneRecord(100) && manager1.select(1) == DronesManager::DroneRecord(200) && manager1.select(2) == DronesManager::DroneRecord(300))
-//        ASSERT_TRUE(manager1.select(3) == 350 && manager1.select())
-//        ASSERT_FALSE(manager1.is_sorted_asc())
-	   return true;
-	}  
+        ASSERT_TRUE(manager1.select(0) == DronesManager::DroneRecord(100) && manager1.select(1) == DronesManager::DroneRecord(200))
+        ASSERT_TRUE(manager1.select(2) == DronesManager::DroneRecord(300) && manager1.select(3) == DronesManager::DroneRecord(400))
 
+        ASSERT_TRUE(manager2.get_size() == 4)
+        ASSERT_TRUE(manager2.first->droneID == 400 && manager2.first->prev == NULL && manager2.first->next->droneID == manager2.select(1))
+        ASSERT_TRUE(manager2.last->droneID == 100 && manager2.last->next == NULL && manager2.last->prev->droneID == manager2.select(2))
+        ASSERT_TRUE(manager2.select(0) == DronesManager::DroneRecord(400) && manager2.select(1) == DronesManager::DroneRecord(300))
+        ASSERT_TRUE(manager2.select(2) == DronesManager::DroneRecord(200) && manager2.select(3) == DronesManager::DroneRecord(100))
+	   return true;
+	}
+
+    // TODO: AMAN
     // AMAN
 	// PURPOSE: insert and remove into sorted manager in ascending order
 	bool test11() {
 	   return false;
 	}
 
+    // TODO: Inserting the value 200 isn't working
     // JONATHAN
 	// PURPOSE: insert and remove into sorted manager in descending order
 	bool test12() {
-	   return false;
+        DronesManagerSorted manager1, manager2;
+        manager1.insert_sorted_desc(DronesManager::DroneRecord(300));
+        manager1.insert_sorted_desc(DronesManager::DroneRecord(100));
+        manager1.insert_sorted_desc(DronesManager::DroneRecord(200));
+        manager1.print();
+        cout << manager1.last->prev->droneID << endl;
+
+        ASSERT_TRUE(manager1.get_size() == 3)
+        ASSERT_TRUE(manager1.first->droneID == 100 && manager1.first->prev == NULL && manager1.first->next->droneID == manager1.select(1) && manager1.first->next->droneID == 200)
+        ASSERT_TRUE(manager1.last->droneID == 300  && manager1.last->next == NULL && manager1.last->prev->droneID == 200)
+	   return true;
 	}  
 };
 

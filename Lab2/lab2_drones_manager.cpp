@@ -10,14 +10,14 @@ DronesManager::DronesManager() {
 }
 
 DronesManager::~DronesManager() {
-//    DroneRecord *curr = first;
-//    DroneRecord *next;
-//
-//    while (curr != NULL) {
-//        next = curr->next;
-//        delete curr;
-//        curr = next;
-//    }
+    DroneRecord *curr = first;
+    DroneRecord *next;
+
+    while (curr != NULL) {
+        next = curr->next;
+        delete curr;
+        curr = next;
+    }
 }
 
 bool operator==(const DronesManager::DroneRecord& lhs, const DronesManager::DroneRecord& rhs) {
@@ -88,7 +88,6 @@ void DronesManager::print() const {
     }
 }
 
-//try to get insert_front and insert_back to work here
 bool DronesManager::insert(DroneRecord value, unsigned int index) {
 	DroneRecord *curr = first;
     DroneRecord *tmp;
@@ -179,7 +178,7 @@ bool DronesManager::remove(unsigned int index) {
         tmp->next = curr->next;
         tmp = curr->next;
         tmp->prev = curr->prev;
-        //delete curr;
+        delete curr;
         size--;
         remove_valid = true;
     }
@@ -196,7 +195,7 @@ bool DronesManager::remove_front() {
     } else if (size == 1)  {
         first = NULL;
         last = NULL;
-        //delete curr;
+        delete curr;
         size--;
         remove_front_valid = true;
     } else {
@@ -204,7 +203,7 @@ bool DronesManager::remove_front() {
         tmp->prev = NULL;
         first = tmp;
         size--;
-        //delete curr;
+        delete curr;
         remove_front_valid = true;
     }
     return remove_front_valid;
@@ -220,14 +219,14 @@ bool DronesManager::remove_back() {
         first = NULL;
         last = NULL;
         size--;
-        //delete curr;
+        delete curr;
         remove_back_valid = true;
     } else {
         tmp = curr->prev;
         tmp->next = NULL;
         last = tmp;
         size--;
-        //delete curr;
+        delete curr;
         remove_back_valid = true;
     }
 
@@ -238,12 +237,16 @@ bool DronesManager::replace(unsigned int index, DroneRecord value) {
     DroneRecord *curr = first;
     DroneRecord *tmp;
     bool replace_valid;
-    if (empty() || index > size || index < 0) {
+    if (empty() || index >= size || index < 0) {
         replace_valid = false;
     }  else if (index == 0) {
-        //need to implement
+        remove_front();
+        insert_front(value);
+        replace_valid = true;
     } else if (index == size-1) {
-        //need to implement
+        remove_back();
+        insert_back(value);
+        replace_valid = true;
     } else {
         for (int i = 0; i < index; i++) {
             curr = curr->next;
@@ -342,16 +345,17 @@ bool DronesManagerSorted::insert_sorted_desc(DroneRecord val) {
     bool dont_stop_loop = true;
     int index = 0;
 
-
     if (!is_sorted_desc()) {
         sorted_desc = false;
+
     } else if (empty()) {
         insert_front(val);
         sorted_desc = true;
+
     } else {
-        for (int i = size-1; i > 0 && dont_stop_loop; i--) {
+        for (int i = 0; i < size && dont_stop_loop; i++) {
             if (val.droneID < curr->droneID) {
-                curr = curr->prev;
+                curr = curr->next;
                 index = size;
             } else {
                 index = i;
@@ -359,58 +363,73 @@ bool DronesManagerSorted::insert_sorted_desc(DroneRecord val) {
                 dont_stop_loop = false;
             }
         }
-        insert(val,index);
+        insert(val, index);
     }
+
 
 	return sorted_desc;
 }
 
 void DronesManagerSorted::sort_asc() {
     DroneRecord *curr;
-    DroneRecord *prev = new DroneRecord();
-    DroneRecord *next = new DroneRecord();
-    DroneRecord *tmp = new DroneRecord();
+    DroneRecord *prev;
+    DroneRecord *next;
 
-    //need to reassign prev
     for (int i = 0; i < size; i++) {
         curr = first;
-        for (int j = 0; j < size - i - 1; j++) {
+        while (curr->next != NULL) {
             if (curr->droneID > curr->next->droneID) {
                 next = curr->next;
-                curr->next = next->next;
-                next->next = curr;
-                if (curr == first) {
+                prev = curr->prev;
+
+                if (curr == first)
                     first = next;
-                    curr = next;
-                } else {
-                    curr = next;
-                    tmp->next = next;
-                }
+                if (curr->next == last)
+                    last = curr;
+                if (prev != NULL)
+                    prev->next = next;
+                if (curr->next->next != NULL)
+                    next->next->prev = curr;
+
+                curr->next = next->next;
+                curr->prev = next;
+                next->next = curr;
+                next->prev = prev;
+                curr = next;
             }
-            tmp = curr;
             curr = curr->next;
         }
     }
-
-    //last->prev isn't functioning
-    curr = first;
-    for (int i = 0; i < size-1; i++) {
-        curr = curr->next;
-    }
-    last = curr;
-    last->next == NULL;
-    last->prev = curr->prev;
 }
     
 void DronesManagerSorted::sort_desc() {
-    DroneRecord *curr = last;
+    DroneRecord *curr;
     DroneRecord *prev;
+    DroneRecord *next;
 
-    while (curr != NULL) {
-        prev = curr->prev;
-        curr->next = NULL;
-        curr->prev = NULL;
-        insert_sorted_desc(*curr);
-        curr = prev;
+    for (int i = 0; i < size; i++) {
+        curr = first;
+        while (curr->next != NULL) {
+            if (curr->droneID < curr->next->droneID) {
+                next = curr->next;
+                prev = curr->prev;
+
+                if (curr == first)
+                    first = next;
+                if (curr->next == last)
+                    last = curr;
+                if (prev != NULL)
+                    prev->next = next;
+                if (curr->next->next != NULL)
+                    next->next->prev = curr;
+
+                curr->next = next->next;
+                curr->prev = next;
+                next->next = curr;
+                next->prev = prev;
+                curr = next;
+            }
+            curr = curr->next;
+        }
     }
 }

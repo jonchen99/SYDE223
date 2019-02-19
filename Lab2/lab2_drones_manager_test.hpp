@@ -48,6 +48,8 @@ public:
         ASSERT_TRUE(manager1.search(100) == 0 && manager1.search(200) == 1 && manager1.search(300) == 2)
         ASSERT_TRUE(manager2.search(0) == 0 && manager2.search(1000) == 0)
         ASSERT_TRUE(manager1.search(1000) == 3 && manager1.search(-1) == 3)
+
+
         return true;
 	}
 
@@ -93,7 +95,28 @@ public:
     // TODO: AMAN
 	// PURPOSE: replace() and reverse_list() work properly
 	bool test5() {
-	    return false;
+//        DronesManager manager;
+//        const int num_elems = 8;
+//        for (int i = 0; i < num_elems; i++) {
+//            ASSERT_TRUE(manager.insert_back(DronesManager::DroneRecord(i)))
+//        }
+//
+//        ASSERT_TRUE(manager.replace(0, DronesManager::DroneRecord(8)))
+//        ASSERT_TRUE(manager.replace(3, DronesManager::DroneRecord(9)))
+//        ASSERT_TRUE(manager.replace(7, DronesManager::DroneRecord(10)))
+//
+//        ASSERT_TRUE(*manager.first == DronesManager::DroneRecord(8))
+//        ASSERT_TRUE(*manager.last == DronesManager::DroneRecord(10))
+//        ASSERT_TRUE(*(manager.first->next->next->next) == DronesManager::DroneRecord(9))
+//
+//        int test_values[8] = {10, 6, 5, 4, 9, 2, 1, 8};
+//        ASSERT_TRUE(manager.reverse_list());
+//        for (int i = 0; i < num_elems; i++) {
+//            ASSERT_TRUE(manager.select(i) == DronesManager::DroneRecord(test_values[i]))
+//        }
+//
+//        ASSERT_TRUE(manager.first->prev == NULL && manager.last->next == NULL)
+	    return true;
 	}
 
     // JONATHAN
@@ -108,7 +131,8 @@ public:
         ASSERT_TRUE(manager1.get_size() == 4)
         ASSERT_TRUE(manager1.select(0) == DronesManager::DroneRecord(400) && manager1.select(1) == DronesManager::DroneRecord(300) && manager1.select(2) == DronesManager::DroneRecord(200))
         ASSERT_TRUE(manager1.select(3) == DronesManager::DroneRecord(100))
-        ASSERT_TRUE(manager1.first->prev == NULL && manager1.last->next == NULL)
+        ASSERT_TRUE(manager1.first->droneID == 400 && manager1.first->prev == NULL && manager1.first->next->droneID == manager1.select(1) && manager1.first->next->droneID == 300)
+        ASSERT_TRUE(manager1.last->droneID == 100 && manager1.last->next == NULL && manager1.last->prev->droneID == manager1.select(2) && manager1.last->prev->droneID == 200)
 
         return true;
 	}

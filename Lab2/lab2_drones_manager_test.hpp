@@ -97,12 +97,12 @@ public:
             ASSERT_TRUE(manager.insert_back(DronesManager::DroneRecord(i)))
         }
 
-        ASSERT_TRUE(manager.replace(0, DronesManager::DroneRecord(8)))
-        ASSERT_TRUE(manager.replace(3, DronesManager::DroneRecord(9)))
-        ASSERT_TRUE(manager.replace(7, DronesManager::DroneRecord(10)))
-        ASSERT_TRUE(*manager.first == DronesManager::DroneRecord(8))
-        ASSERT_TRUE(*manager.last == DronesManager::DroneRecord(10))
-        ASSERT_TRUE(*(manager.first->next->next->next) == DronesManager::DroneRecord(9))
+        ASSERT_TRUE(manager.replace(0, DronesManager::DroneRecord(100)))
+        ASSERT_TRUE(manager.replace(2, DronesManager::DroneRecord(200)))
+        ASSERT_TRUE(manager.replace(7, DronesManager::DroneRecord(300)))
+        ASSERT_TRUE(*manager.first == DronesManager::DroneRecord(100))
+        ASSERT_TRUE(*manager.last == DronesManager::DroneRecord(300))
+        ASSERT_TRUE(*(manager.first->next->next) == DronesManager::DroneRecord(200))
 
         int test_values[8] = {10, 6, 5, 4, 9, 2, 1, 8};
         ASSERT_TRUE(manager.reverse_list());
@@ -115,7 +115,6 @@ public:
 	    return true;
 	}
 
-    // JONATHAN
 	// PURPOSE: insert_front() keeps moving elements forward
 	bool test6() {
         DronesManager manager1;
@@ -133,7 +132,6 @@ public:
         return true;
 	}
 
-    // AMAN
 	// PURPOSE: inserting at different positions in the list
 	bool test7() {
         DronesManager manager;
@@ -153,7 +151,6 @@ public:
         return true;
 	}
 
-    // JONATHAN
 	// PURPOSE: try to remove too many elements, then add a few elements
 	bool test8() {
         DronesManager manager1,manager2;
@@ -189,7 +186,6 @@ public:
         return true;
 	}
 
-    // AMAN
 	// PURPOSE: lots of inserts and deletes, some of them invalid
 	bool test9() {
         DronesManager manager1;
@@ -210,7 +206,6 @@ public:
         return true;
 	}    
 
-    // JONATHAN
 	// PURPOSE: inserts into an unsorted list, then sort the list
 	bool test10() {
         DronesManagerSorted manager1,manager2;
@@ -240,7 +235,6 @@ public:
 	   return true;
 	}
 
-    // AMAN
 	// PURPOSE: insert and remove into sorted manager in ascending order
 	bool test11() {
         DronesManagerSorted manager1, manager2;
@@ -267,7 +261,6 @@ public:
         ASSERT_TRUE(manager1.last->droneID == 400  && manager1.last->next == NULL &&  manager1.last->prev->droneID == manager1.select(2) && manager1.last->prev->droneID == 300)
         return true;	}
 
-    // JONATHAN
 	// PURPOSE: insert and remove into sorted manager in descending order
 	bool test12() {
         DronesManagerSorted manager1, manager2;

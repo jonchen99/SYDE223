@@ -107,12 +107,12 @@ bool DronesManager::insert(DroneRecord value, unsigned int index) {
         for (unsigned int i = 0; i < index - 1; i++) {
             curr = curr->next;
         }
-
         tmp = curr;
         curr = new_value;
         curr->prev = tmp;
         curr->next = tmp->next;
         tmp->next = curr;
+        curr->next->prev = curr;
 
         insert_valid = true;
         size++;
@@ -300,7 +300,7 @@ bool DronesManagerSorted::is_sorted_desc() const {
         is_sorted = true;
     else {
         for (int i = 0; i < size-1 && is_sorted; i++) {
-            if (curr->droneID < curr->prev->droneID)
+            if (curr->droneID > curr->prev->droneID)
                 is_sorted = false;
             curr = curr->prev;
         }
@@ -354,6 +354,7 @@ bool DronesManagerSorted::insert_sorted_desc(DroneRecord val) {
 
     } else {
         for (int i = 0; i < size && dont_stop_loop; i++) {
+
             if (val.droneID < curr->droneID) {
                 curr = curr->next;
                 index = size;
@@ -365,7 +366,6 @@ bool DronesManagerSorted::insert_sorted_desc(DroneRecord val) {
         }
         insert(val, index);
     }
-
 
 	return sorted_desc;
 }

@@ -200,7 +200,6 @@ public:
 	   return false;
 	}
 
-    // TODO: Inserting the value 200 isn't working
     // JONATHAN
 	// PURPOSE: insert and remove into sorted manager in descending order
 	bool test12() {
@@ -208,12 +207,24 @@ public:
         manager1.insert_sorted_desc(DronesManager::DroneRecord(300));
         manager1.insert_sorted_desc(DronesManager::DroneRecord(100));
         manager1.insert_sorted_desc(DronesManager::DroneRecord(200));
-        manager1.print();
-        cout << manager1.last->prev->droneID << endl;
 
         ASSERT_TRUE(manager1.get_size() == 3)
-        ASSERT_TRUE(manager1.first->droneID == 100 && manager1.first->prev == NULL && manager1.first->next->droneID == manager1.select(1) && manager1.first->next->droneID == 200)
-        ASSERT_TRUE(manager1.last->droneID == 300  && manager1.last->next == NULL && manager1.last->prev->droneID == 200)
+        ASSERT_TRUE(manager1.first->droneID == 300 && manager1.first->prev == NULL && manager1.first->next->droneID == manager1.select(1) && manager1.first->next->droneID == 200)
+        ASSERT_TRUE(manager1.last->droneID == 100  && manager1.last->next == NULL &&  manager1.last->prev->droneID == manager1.select(1) && manager1.last->prev->droneID == 200)
+
+        manager1.remove_back();
+        manager1.remove_front();
+
+        ASSERT_TRUE(manager1.get_size() == 1)
+        ASSERT_TRUE(manager1.first->droneID == 200 && manager1.first->prev == NULL && manager1.first->next == NULL)
+
+        manager1.insert_sorted_desc(DronesManager::DroneRecord(400));
+        manager1.insert_sorted_desc(DronesManager::DroneRecord(100));
+        manager1.insert_sorted_desc(DronesManager::DroneRecord(300));
+
+        ASSERT_TRUE(manager1.get_size() == 4)
+        ASSERT_TRUE(manager1.first->droneID == 400 && manager1.first->prev == NULL && manager1.first->next->droneID == manager1.select(1) && manager1.first->next->droneID == 300)
+        ASSERT_TRUE(manager1.last->droneID == 100  && manager1.last->next == NULL &&  manager1.last->prev->droneID == manager1.select(2) && manager1.last->prev->droneID == 200)
 	   return true;
 	}  
 };

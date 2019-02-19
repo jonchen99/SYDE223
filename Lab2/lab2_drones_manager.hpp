@@ -1,3 +1,7 @@
+// Jonathan Chen 20722167 && Aman Mathur 20710307
+// February 19th, 2019
+// SYDE 223 Lab #2
+
 #ifndef DRONES_MANAGER_HPP
 #define DRONES_MANAGER_HPP
 #include <string>

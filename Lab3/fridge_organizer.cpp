@@ -4,6 +4,7 @@
 #include "fridge_organizer.hpp"
 using namespace std;
 
+
 // PURPOSE: Parametric constructor for FridgeOrganizer
 FridgeOrganizer::FridgeOrganizer(unsigned int n_stack_number, unsigned int n_stack_capacity) {
     if (n_stack_number >= 2)
@@ -46,11 +47,18 @@ void FridgeOrganizer::print_stacks() {
 // TO-DO: implement the number_of_portions() method
 // PURPOSE: Returns the number of meal portions in the fridge
 int FridgeOrganizer::number_of_portions() {
+
     // step1 initialize portion count to 0
+    int portion_count = 0;
+
     // step2 use list iterator to iterate through list elements; see print function
-    // step2.1 add current stack size to portion count
+    for (list<stack<MealPortion*>*>::iterator i = stacks.begin(); i != stacks.end(); ++i) {
+        // step2.1 add current stack size to portion count
+        portion_count++;
+    }
+
     // step3 return final portion count
-    return 0;
+    return portion_count;
 }
 
 // TO-DO: implement the add_meal_portion() method
@@ -58,19 +66,37 @@ int FridgeOrganizer::number_of_portions() {
 // insert the portion into the first empty stack from the back
 bool FridgeOrganizer::add_meal_portion(string n_name, string n_expiry) {
     // step1 create a new meal portion object on the heap
+    MealPortion *new_meal = new MealPortion(n_name, n_expiry);
 
     // step2 grab a pointer to the last stack from the back
+    stack<MealPortion*> *temp = stacks.back();
 
     // step3 if the stacks list is not empty and there is space in the current stack
     // step3.1 insert the new meal into the current stack
+//    cout << "temp size" << temp -> size();
 
-    // step4 else if there is space for a new stack
-    // step4.1 create a new stack with new stack<MealPortion*>
-    // step4.2 add the meal portion to that stack
-    // step4.3 add the new stack to the stacks list
+    if (!stacks.empty() && temp -> size() < stack_capacity ){
+        temp -> push(new_meal);
+        cout << endl << "case 1" << endl;
+    } else if (stacks.size() < stack_number){     // step4 else if there is space for a new stack
 
-    // step5 else there is no more space for new stacks
-    // step5.1 return false
+        // step4.1 create a new stack with new stack<MealPortion*>
+        stack<MealPortion*> *new_stack = new stack<MealPortion*>;
+
+        // step4.2 add the meal portion to that stack
+        new_stack -> push(new_meal);
+
+        // step4.3 add the new stack to the stacks list
+        stacks.push_back(new_stack);
+        cout << endl << "case 2" << endl;
+
+    } else {
+        cout << endl << "case 3" << endl;
+
+        // step5 else there is no more space for new stacks
+        // step5.1 return false
+        return false;
+    }
 
     // step6 return true if addition was successful
     return true;
@@ -81,8 +107,11 @@ bool FridgeOrganizer::add_meal_portion(string n_name, string n_expiry) {
 // if the fridge is empty, returns ("EMPTY", "N/A")
 FridgeOrganizer::MealPortion FridgeOrganizer::remove_meal_portion() {
     // step1 create a temporary MealPortion("EMPTY", "N/A") object called m
+    MealPortion *m = new MealPortion("EMPTY", "N/A");
 
     // step2 if the stacks list is empty
+//    if (stacks.empty())
+//        return m;
     // step2.1 return corresponding m value
 
     // step3 grab a pointer to the stack at the back of the list
@@ -184,10 +213,10 @@ bool FridgeOrganizerTest::test3() {
 void FridgeOrganizerTest::runTests() {
     cout << endl << "-= TEST 1: Test FridgeOrganizer constructor and basic item insertion";
     cout << (test1() ? " PASSED =-" : " FAILED =-") << endl;
-    cout << endl << "-= TEST 2: Test stack growth and shrinking with LIFO removal";
-    cout << (test2() ? " PASSED =-" : " FAILED =-") << endl;
-    cout << endl << "-= TEST 3: Test find meal portion by earliest expiry date";
-    cout << (test3() ? " PASSED =-" : " FAILED =-") << endl;
+//    cout << endl << "-= TEST 2: Test stack growth and shrinking with LIFO removal";
+//    cout << (test2() ? " PASSED =-" : " FAILED =-") << endl;
+//    cout << endl << "-= TEST 3: Test find meal portion by earliest expiry date";
+//    cout << (test3() ? " PASSED =-" : " FAILED =-") << endl;
 }
 
 int main() {

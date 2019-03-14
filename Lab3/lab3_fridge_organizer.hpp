@@ -1,3 +1,7 @@
+// Jonathan Chen 20722167 && Aman Mathur 20710307
+// March 14th, 2019
+// SYDE 223 Lab #3
+
 #ifndef LAB03_FRIDGE_ORGANIZER_HPP
 #define LAB03_FRIDGE_ORGANIZER_HPP
 #include <iostream>

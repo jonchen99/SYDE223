@@ -1,3 +1,7 @@
+// Jonathan Chen 20722167 && Aman Mathur 20710307
+// March 14th, 2019
+// SYDE 223 Lab #3
+
 #include <iostream>
 #include <list> // see http://www.cplusplus.com/reference/list/list/ for additional reference
 #include <stack> // see http://www.cplusplus.com/reference/stack/stack/ for additional reference
@@ -55,7 +59,6 @@ int FridgeOrganizer::number_of_portions() {
 		stack<MealPortion*> cur_stack = **i; int cur_stack_size = cur_stack.size();
 		for (int cur_element_index = 0; cur_element_index < cur_stack_size; ++cur_element_index) {
 			portion_count++;
-			cur_stack.pop();
 		}
 	}
 
@@ -71,12 +74,12 @@ bool FridgeOrganizer::add_meal_portion(string n_name, string n_expiry) {
 	MealPortion* newMeal = new MealPortion(n_name,n_expiry);
 
 	// step2 grab a pointer to the last stack from the back
-	stack<MealPortion*>* last_stack = stacks.back();
+	stack<MealPortion*>* lastStack = stacks.back();
 
 	// step3 if the stacks list is not empty and there is space in the current stack
-	if (!stacks.empty() && last_stack->size() < stack_capacity)// && last_stack->size() != last_stack->max_size()) //HOW TO CHECK IF THERE IS SPACE?
+	if (!stacks.empty() && lastStack->size() < stack_capacity)// && last_stack->size() != last_stack->max_size()) //HOW TO CHECK IF THERE IS SPACE?
 		// step3.1 insert the new meal into the current stack
-		last_stack->push(newMeal);
+		lastStack->push(newMeal);
 
 		// step4 else if there is space for a new stack
 	else if (stacks.size() < usable_stacks) {
@@ -110,16 +113,16 @@ FridgeOrganizer::MealPortion FridgeOrganizer::remove_meal_portion() {
 	}
 
 	// step3 grab a pointer to the stack at the back of the list
-	stack<MealPortion*>* last_stack = stacks.back();
+	stack<MealPortion*>* lastStack = stacks.back();
 	// step4 set m's value to match the value of top element of that stack
-	m = last_stack -> top();
+	m = lastStack -> top();
 
 	// step5 free memory for the top element and pop it from the stack
-	delete last_stack -> top();
-	last_stack -> pop();
+	delete lastStack -> top();
+	lastStack -> pop();
 
 	// step6 if the current stack is empty
-	if (last_stack -> empty()){
+	if (lastStack -> empty()){
 		// step6.1 free its memory and remove it from the list
 		delete stacks.back();
 		stacks.pop_back();

@@ -1,3 +1,6 @@
+// Jonathan Chen 20722167 && Aman Mathur 20710307
+// April 1st, 2019
+// SYDE 223 Lab #4
 #include <iostream>
 #include <string>
 #include "lab4_tests.h"

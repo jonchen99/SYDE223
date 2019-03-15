@@ -1,6 +1,11 @@
+// Jonathan Chen 20722167 && Aman Mathur 20710307
+// April 1st, 2019
+// SYDE 223 Lab #4
+
 #ifndef LAB4_PRIORITY_QUEUE_HPP
 #define LAB4_PRIORITY_QUEUE_HPP
 #include <string>
+#include <iostream>
 using namespace std;
 
 // PURPOSE: Models a Priority Queue of Task Items

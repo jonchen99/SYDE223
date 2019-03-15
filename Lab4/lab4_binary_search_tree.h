@@ -1,3 +1,6 @@
+// Jonathan Chen 20722167 && Aman Mathur 20710307
+// April 1st, 2019
+// SYDE 223 Lab #4
 #ifndef LAB4_BINARY_SEARCH_TREE_HPP
 #define LAB4_BINARY_SEARCH_TREE_HPP
 

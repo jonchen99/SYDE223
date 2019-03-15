@@ -8,6 +8,8 @@ using namespace std;
 
 // PURPOSE: Default/empty constructor
 BinarySearchTree::BinarySearchTree() {
+    int size = 0;
+    root = NULL;
 }
 
 // PURPOSE: Explicit destructor of the class BinarySearchTree
@@ -16,19 +18,33 @@ BinarySearchTree::~BinarySearchTree() {
 
 // PURPOSE: Returns the number of nodes in the tree
 unsigned int BinarySearchTree::get_size() const {
-    return 0;
+    return size;
 }
 
 // PURPOSE: Returns the maximum value of a node in the tree
 // if the tree is empty, it returns (-1, "N/A")
 BinarySearchTree::TaskItem BinarySearchTree::max() const {
-    return BinarySearchTree::TaskItem(-1, "N/A");
+    if (size == 0)
+        return BinarySearchTree::TaskItem(-1, "N/A");
+
+    TaskItem *max = root;
+    while (max->right != NULL) {
+        max = max->right;
+    }
+    return *max;
 }
 
 // PURPOSE: Returns the minimum value of a node in the tree
 // if the tree is empty, it returns (-1, "N/A")
 BinarySearchTree::TaskItem BinarySearchTree::min() const {
-    return BinarySearchTree::TaskItem(-1, "N/A");
+    if (size == 0)
+        return BinarySearchTree::TaskItem(-1, "N/A");
+
+    TaskItem *min = root;
+    while (min->left != NULL) {
+        min = min->left;
+    }
+    return *min;
 }
 
 // PURPOSE: Returns the tree height

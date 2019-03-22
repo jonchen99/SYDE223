@@ -49,11 +49,12 @@ BinarySearchTree::TaskItem BinarySearchTree::min() const {
 
 // PURPOSE: Returns the tree height
 unsigned int BinarySearchTree::height() const {
-    return 0;
+  return get_node_depth(root);
 }
 
 // PURPOSE: Prints the contents of the tree; format not specified
 void BinarySearchTree::print() const {
+
 }
 
 // PURPOSE: Returns true if a node with the value val exists in the tree
@@ -74,17 +75,93 @@ BinarySearchTree::TaskItem** BinarySearchTree::get_root_node_address() {
 
 // PURPOSE: Optional helper function that gets the maximum depth for a given node
 int BinarySearchTree::get_node_depth( BinarySearchTree::TaskItem* n ) const {
-    return 0;
+    if (n == NULL) return -1;
+    int left_depth = 1+get_node_depth(n->left);
+    int right_depth = 1+get_node_depth(n->right);
+//
+    return left_depth > right_depth ? left_depth : right_depth;
+
+//    return get_node_depth(n->left) >= get_node_depth(n->right) ? get_node_depth(n->left) : get_node_depth(n->right);
 }
 
 // PURPOSE: Inserts the value val into the tree if it is unique
 // returns true if successful; returns false if val already exists
 bool BinarySearchTree::insert( BinarySearchTree::TaskItem val ) {
-    return false;
+    if (root == NULL) {
+        root = new TaskItem(val);
+        return true;
+    };
+
+    TaskItem *cur = root;
+    TaskItem *parent = NULL;
+
+    while (cur != NULL){
+        if (val.priority > cur->priority){
+            parent = cur;
+            cur = cur -> right;
+        } else if ( val.priority == cur -> priority){
+            return false;
+        } else {
+            parent = cur;
+            cur = cur -> left;
+        }
+    }
+
+    if (val.priority > parent -> priority){
+        parent -> right = new TaskItem(val);
+    } else {
+        parent -> left = new TaskItem(val);
+    }
+    return true;
 }
 
 // PURPOSE: Removes the node with the value val from the tree
 // returns true if successful; returns false otherwise
 bool BinarySearchTree::remove( BinarySearchTree::TaskItem val ) {
+    if (root == NULL) return -1;
+    TaskItem *cur = root;
+    TaskItem *parent = NULL;
+    bool left = true;
+
+    //Find node to be removed
+    while (cur != NULL) {
+        if (val.priority > cur->priority) {
+            parent = cur;
+            cur = cur->right;
+            left = false;
+        } else if (val.priority < cur->priority) {
+            parent = cur;
+            cur = cur->left;
+            left = true;
+        } else {
+            if (cur -> left != NULL && cur -> right != NULL) {
+
+            }
+
+            if (cur -> left == NULL && cur -> right == NULL){
+                //Remove parent's pointer to cur (left or right??)
+                if (left){
+                    parent-> left = NULL;
+                } else {
+                    parent -> right = NULL;
+                }
+                delete cur;
+            } else if (cur -> left == NULL && cur -> right != NULL){
+                if (left){
+                    parent -> left = cur -> right;
+                    delete cur;
+                }
+            } else if (cur -> left != NULL && cur -> right == NULL){
+                if (left){
+                    parent -> left = cur -> left;
+                    delete cur;
+                }
+            }
+
+            //Removal code
+            return true;
+        }
+    }
+
     return false;
 }

@@ -118,50 +118,89 @@ bool BinarySearchTree::insert( BinarySearchTree::TaskItem val ) {
 // PURPOSE: Removes the node with the value val from the tree
 // returns true if successful; returns false otherwise
 bool BinarySearchTree::remove( BinarySearchTree::TaskItem val ) {
-    if (root == NULL) return -1;
+    cout << "test remove";
+    if (root == NULL) {
+        cout << "root priority if";
+        return false;
+    } else {
+        cout << "root priority else";
+
+    }
+
     TaskItem *cur = root;
     TaskItem *parent = NULL;
     bool left = true;
+    bool found = false;
 
-    //Find node to be removed
-    while (cur != NULL) {
+    //Traverse tree until value is found
+    while (!found) {
+        //If value is larger than cur, move cur to right child
         if (val.priority > cur->priority) {
             parent = cur;
             cur = cur->right;
             left = false;
-        } else if (val.priority < cur->priority) {
+            //If value is smaller than cur, move cur to left child
+        }
+        else if (val.priority < cur->priority) {
             parent = cur;
             cur = cur->left;
             left = true;
-        } else {
-            if (cur -> left != NULL && cur -> right != NULL) {
+            //If value is equal to given value, update flag
+        }
+        else if (val.priority == cur->priority) {
+            found = true;
 
-            }
-
-            if (cur -> left == NULL && cur -> right == NULL){
-                //Remove parent's pointer to cur (left or right??)
-                if (left){
-                    parent-> left = NULL;
-                } else {
-                    parent -> right = NULL;
-                }
-                delete cur;
-            } else if (cur -> left == NULL && cur -> right != NULL){
-                if (left){
-                    parent -> left = cur -> right;
-                    delete cur;
-                }
-            } else if (cur -> left != NULL && cur -> right == NULL){
-                if (left){
-                    parent -> left = cur -> left;
-                    delete cur;
-                }
-            }
-
-            //Removal code
-            return true;
+        }
+        else {
+            return false;
         }
     }
 
-    return false;
+
+    // If two children;
+    if (cur -> left != NULL && cur -> right != NULL) {
+
+        TaskItem *maxOnLeft = cur->left;
+        TaskItem *maxParent = cur;
+
+        while (maxOnLeft ->right != NULL) {
+            maxParent = maxOnLeft;
+            maxOnLeft = maxParent -> right;
+        }
+
+        TaskItem *temp = cur;
+        temp -> right = maxOnLeft -> right;
+        temp -> left = maxOnLeft -> left;
+
+        if (left){
+            parent -> left = maxOnLeft;
+        } else {
+            parent -> right = maxOnLeft;
+        }
+        maxOnLeft -> left = cur -> left;
+        maxOnLeft -> right = cur -> right;
+        maxParent -> right = temp;
+        cur = temp;
+    }
+
+    //If leaf node
+    if (cur -> left == NULL && cur -> right == NULL){
+        delete cur;
+        if (left){
+            parent-> left = NULL;
+        } else {
+            parent -> right = NULL;
+        }
+
+    //if one right child
+    } else if (cur -> left == NULL && cur -> right != NULL){
+        delete cur;
+        parent -> left = cur -> right;
+
+        //if one left child
+    } else if (cur -> left != NULL && cur -> right == NULL){
+       delete cur;
+       parent -> left = cur -> left;
+
+    }
 }

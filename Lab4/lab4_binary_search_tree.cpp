@@ -31,6 +31,7 @@ BinarySearchTree::TaskItem BinarySearchTree::max() const {
     while (max->right != NULL) {
         max = max->right;
     }
+
     return *max;
 }
 
@@ -107,7 +108,7 @@ bool BinarySearchTree::insert( BinarySearchTree::TaskItem val ) {
         root = new TaskItem(val);
         size++;
         return true;
-    };
+    }
 
     TaskItem *cur = root;
     TaskItem *parent = NULL;
@@ -172,35 +173,41 @@ bool BinarySearchTree::remove( BinarySearchTree::TaskItem val ) {
         }
     }
 
+
     // If two children;
     if (cur -> left != NULL && cur -> right != NULL) {
-
-        if (root -> priority == val.priority){
-            root = maxOnLeft;
-        }
 
         //Find maximum value (and parent) on left side of removal node
         TaskItem *maxOnLeftParent = cur;
         TaskItem *maxOnLeft = cur -> left;
 
+        //Traverse down left side to find maximum
         while (maxOnLeft ->right != NULL) {
             maxOnLeftParent = maxOnLeft;
             maxOnLeft = maxOnLeft -> right;
         }
 
-
-        //Store value from max on left in temp var
+        //Create temp copy of removal node
         TaskItem *temp = cur;
+        TaskItem tempCur = *cur;
+
         temp -> left = maxOnLeft -> left;
         temp -> right = maxOnLeft -> right;
 
-
-        //Set maxOnLeft pointers to removal node pointers
-        maxOnLeft -> left = cur -> left;
-        maxOnLeft -> right = cur -> right;
-
         //Point parent to temp (to be removed)
-        maxOnLeftParent -> right = temp;
+        if (maxOnLeft->left == NULL) {
+            maxOnLeftParent->right = NULL;
+        } else {
+            maxOnLeftParent->right = maxOnLeft->left;
+        }
+
+        maxOnLeft->left = tempCur.left;
+        maxOnLeft->right = tempCur.right;
+
+        if (maxOnLeft -> left->priority == maxOnLeft->priority){
+            maxOnLeft -> left = NULL;
+        }
+
 
         //set current to temp (to be removed);
         cur = temp;
@@ -210,33 +217,50 @@ bool BinarySearchTree::remove( BinarySearchTree::TaskItem val ) {
             parent -> left = maxOnLeft;
         } else if (root->priority != val.priority && !left) {
             parent -> right = maxOnLeft;
+        } else if (root -> priority == val.priority) {
+            root = maxOnLeft;
         }
+
     }
 
 
     //If leaf node
     if (cur -> left == NULL && cur -> right == NULL){
-//        delete cur;
+        //delete cur;
+        if (cur->priority == root->priority){
+            root = NULL;
+            return true;
+        }
+
         if (left){
             parent-> left = NULL;
         } else {
             parent -> right = NULL;
         }
         size--;
+
         return true;
     }
     //if one right child
     else if (cur -> left == NULL && cur -> right != NULL){
 //        delete cur;
-        parent -> left = cur -> right;
+        if (left) {
+            parent -> left = cur -> right;
+        } else {
+            parent -> right = cur -> right;
+        }
         size--;
         return true;
     }
     //if one left child
     else if (cur -> left != NULL && cur -> right == NULL){
-//       delete cur;
-       parent -> right = cur -> left;
-       size--;
+        // delete cur;
+        if (left) {
+            parent -> left = cur -> left;
+        } else {
+            parent -> right = cur -> left;
+        }
+        size--;
         return true;
     }
 

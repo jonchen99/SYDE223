@@ -8,7 +8,7 @@ using namespace std;
 
 // PURPOSE: Default/empty constructor
 BinarySearchTree::BinarySearchTree() {
-    int size = 0;
+    size = 0;
     root = NULL;
 }
 
@@ -60,6 +60,22 @@ void BinarySearchTree::print() const {
 // PURPOSE: Returns true if a node with the value val exists in the tree
 // otherwise, returns false
 bool BinarySearchTree::exists( BinarySearchTree::TaskItem val ) const {
+
+    TaskItem *cur = root;
+    while(cur != NULL)
+    {
+        if(cur ->priority == val.priority){
+            return true;
+        }
+
+        if (cur ->priority > val.priority){
+            cur = cur -> left;
+        } else {
+            cur = cur -> right;
+        }
+
+    }
+
     return false;
 }
 
@@ -89,6 +105,7 @@ int BinarySearchTree::get_node_depth( BinarySearchTree::TaskItem* n ) const {
 bool BinarySearchTree::insert( BinarySearchTree::TaskItem val ) {
     if (root == NULL) {
         root = new TaskItem(val);
+        size++;
         return true;
     };
 
@@ -112,95 +129,117 @@ bool BinarySearchTree::insert( BinarySearchTree::TaskItem val ) {
     } else {
         parent -> left = new TaskItem(val);
     }
+    size++;
     return true;
 }
 
 // PURPOSE: Removes the node with the value val from the tree
 // returns true if successful; returns false otherwise
 bool BinarySearchTree::remove( BinarySearchTree::TaskItem val ) {
-    cout << "test remove";
     if (root == NULL) {
-        cout << "root priority if";
         return false;
-    } else {
-        cout << "root priority else";
-
     }
 
     TaskItem *cur = root;
-    TaskItem *parent = NULL;
+    TaskItem *parent = root;
     bool left = true;
     bool found = false;
 
     //Traverse tree until value is found
     while (!found) {
-        //If value is larger than cur, move cur to right child
-        if (val.priority > cur->priority) {
+        if (val.priority == cur->priority) {
+            found = true;
+        } else if (val.priority > cur->priority) {
             parent = cur;
-            cur = cur->right;
+            if (cur -> right != NULL) {
+                cur = cur->right;
+            } else {
+                return false;
+            }
             left = false;
             //If value is smaller than cur, move cur to left child
-        }
-        else if (val.priority < cur->priority) {
+        } else if (val.priority < cur->priority) {
             parent = cur;
-            cur = cur->left;
+            if (cur -> left != NULL) {
+                cur = cur->left;
+            } else {
+                return false;
+            }
             left = true;
             //If value is equal to given value, update flag
-        }
-        else if (val.priority == cur->priority) {
-            found = true;
-
-        }
-        else {
+        } else {
             return false;
         }
     }
 
-
     // If two children;
     if (cur -> left != NULL && cur -> right != NULL) {
 
-        TaskItem *maxOnLeft = cur->left;
-        TaskItem *maxParent = cur;
+        if (root -> priority == val.priority){
+            root = maxOnLeft;
+        }
+
+        //Find maximum value (and parent) on left side of removal node
+        TaskItem *maxOnLeftParent = cur;
+        TaskItem *maxOnLeft = cur -> left;
 
         while (maxOnLeft ->right != NULL) {
-            maxParent = maxOnLeft;
-            maxOnLeft = maxParent -> right;
+            maxOnLeftParent = maxOnLeft;
+            maxOnLeft = maxOnLeft -> right;
         }
 
+
+        //Store value from max on left in temp var
         TaskItem *temp = cur;
-        temp -> right = maxOnLeft -> right;
         temp -> left = maxOnLeft -> left;
+        temp -> right = maxOnLeft -> right;
 
-        if (left){
-            parent -> left = maxOnLeft;
-        } else {
-            parent -> right = maxOnLeft;
-        }
+
+        //Set maxOnLeft pointers to removal node pointers
         maxOnLeft -> left = cur -> left;
         maxOnLeft -> right = cur -> right;
-        maxParent -> right = temp;
+
+        //Point parent to temp (to be removed)
+        maxOnLeftParent -> right = temp;
+
+        //set current to temp (to be removed);
         cur = temp;
+
+        //set parent of removal node to max on left;
+        if (root->priority != val.priority && left){
+            parent -> left = maxOnLeft;
+        } else if (root->priority != val.priority && !left) {
+            parent -> right = maxOnLeft;
+        }
     }
+
 
     //If leaf node
     if (cur -> left == NULL && cur -> right == NULL){
-        delete cur;
+//        delete cur;
         if (left){
             parent-> left = NULL;
         } else {
             parent -> right = NULL;
         }
-
-    //if one right child
-    } else if (cur -> left == NULL && cur -> right != NULL){
-        delete cur;
-        parent -> left = cur -> right;
-
-        //if one left child
-    } else if (cur -> left != NULL && cur -> right == NULL){
-       delete cur;
-       parent -> left = cur -> left;
-
+        size--;
+        return true;
     }
+    //if one right child
+    else if (cur -> left == NULL && cur -> right != NULL){
+//        delete cur;
+        parent -> left = cur -> right;
+        size--;
+        return true;
+    }
+    //if one left child
+    else if (cur -> left != NULL && cur -> right == NULL){
+//       delete cur;
+       parent -> right = cur -> left;
+       size--;
+        return true;
+    }
+
+    return false;
 }
+

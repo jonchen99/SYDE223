@@ -145,6 +145,8 @@ bool BinarySearchTree::remove( BinarySearchTree::TaskItem val ) {
     TaskItem *parent = root;
     bool left = true;
     bool found = false;
+    bool twoChild = false;
+    bool maxIsLeft = false;
 
     //Traverse tree until value is found
     while (!found) {
@@ -173,76 +175,104 @@ bool BinarySearchTree::remove( BinarySearchTree::TaskItem val ) {
         }
     }
 
+    TaskItem *maxOnLeft = cur -> left;
 
-    // If two children;
-    if (cur -> left != NULL && cur -> right != NULL) {
-
-        //Find maximum value (and parent) on left side of removal node
-        TaskItem *maxOnLeftParent = cur;
-        TaskItem *maxOnLeft = cur -> left;
-
-        //Traverse down left side to find maximum
-        while (maxOnLeft ->right != NULL) {
-            maxOnLeftParent = maxOnLeft;
-            maxOnLeft = maxOnLeft -> right;
-        }
-
-        //Create temp copy of removal node
-        TaskItem *temp = cur;
-        TaskItem tempCur = *cur;
-
-        temp -> left = maxOnLeft -> left;
-        temp -> right = maxOnLeft -> right;
-
-        //Point parent to temp (to be removed)
-        if (maxOnLeft->left == NULL) {
-            maxOnLeftParent->right = NULL;
+    //Traverse down left side to find maximum
+    if (cur->left != NULL && cur->right != NULL) {
+        if (maxOnLeft->right != NULL) {
+            while (maxOnLeft->right != NULL) {
+                //            maxOnLeftParent = maxOnLeft;
+                parent = maxOnLeft;
+                maxOnLeft = maxOnLeft->right;
+                left = false;
+            }
         } else {
-            maxOnLeftParent->right = maxOnLeft->left;
+            parent = cur;
+            left = true;
+            maxIsLeft = true;
         }
 
-        maxOnLeft->left = tempCur.left;
-        maxOnLeft->right = tempCur.right;
-
-        if (maxOnLeft -> left->priority == maxOnLeft->priority){
-            maxOnLeft -> left = NULL;
-        }
-
-
-        //set current to temp (to be removed);
-        cur = temp;
-
-        //set parent of removal node to max on left;
-        if (root->priority != val.priority && left){
-            parent -> left = maxOnLeft;
-        } else if (root->priority != val.priority && !left) {
-            parent -> right = maxOnLeft;
-        } else if (root -> priority == val.priority) {
-            root = maxOnLeft;
-        }
-
+        cur = maxOnLeft;
+        twoChild = true;
     }
+
+
+
+//NOTE: OLD STUFF
+//    // If two children;
+//    if (cur -> left != NULL && cur -> right != NULL) {
+//
+//        //Find maximum value (and parent) on left side of removal node
+//        TaskItem *maxOnLeftParent = cur;
+//        TaskItem *maxOnLeft = cur -> left;
+//
+//        //Traverse down left side to find maximum
+//        while (maxOnLeft ->right != NULL) {
+//            maxOnLeftParent = maxOnLeft;
+//            maxOnLeft = maxOnLeft -> right;
+//        }
+//
+//        //Create temp copy of removal node
+//        TaskItem *temp = cur;
+//        TaskItem tempCur = *cur;
+//
+////        temp -> left = maxOnLeft -> left;
+////        temp -> right = maxOnLeft -> right;
+//        temp->left = maxOnLeft -> left;
+//        temp->right = maxOnLeft -> right;
+//
+//        //Point MOLparent to temp (to be removed)
+//        if (maxOnLeftParent->priority != cur->priority) {
+//            if (maxOnLeft->left == NULL) {
+//                maxOnLeftParent->right = NULL;
+//            } else {
+//                maxOnLeftParent->right = maxOnLeft->left;
+//            }
+//        } else {
+//            maxOnLeftParent->right = tempCur.right;
+//        }
+//
+//        maxOnLeft->left = tempCur.left;
+//        maxOnLeft->right = tempCur.right;
+//
+//        if (maxOnLeft -> left->priority == maxOnLeft->priority){
+//            maxOnLeft -> left = NULL;
+//        }
+//
+//        //set current to temp (to be removed);
+//        cur = temp;
+//
+//        //set parent of removal node to max on left;
+//        if (root->priority != val.priority && left){
+//            parent -> left = maxOnLeft;
+//        } else if (root->priority != val.priority && !left) {
+//            parent -> right = maxOnLeft;
+//        } else if (root -> priority == val.priority) {
+//            root = maxOnLeft;
+//        }
+//    }
 
 
     //If leaf node
     if (cur -> left == NULL && cur -> right == NULL){
+
         //delete cur;
         if (cur->priority == root->priority){
             root = NULL;
-            return true;
+//            return true;
         }
-
         if (left){
-            parent-> left = NULL;
+            parent->left = NULL;
         } else {
             parent -> right = NULL;
         }
         size--;
 
-        return true;
+//        return true;
     }
     //if one right child
     else if (cur -> left == NULL && cur -> right != NULL){
+
 //        delete cur;
         if (left) {
             parent -> left = cur -> right;
@@ -250,10 +280,11 @@ bool BinarySearchTree::remove( BinarySearchTree::TaskItem val ) {
             parent -> right = cur -> right;
         }
         size--;
-        return true;
+//        return true;
     }
     //if one left child
     else if (cur -> left != NULL && cur -> right == NULL){
+
         // delete cur;
         if (left) {
             parent -> left = cur -> left;
@@ -261,9 +292,24 @@ bool BinarySearchTree::remove( BinarySearchTree::TaskItem val ) {
             parent -> right = cur -> left;
         }
         size--;
-        return true;
+//        return true;
     }
 
-    return false;
+//    if (cur->left != NULL && cur->right != NULL) {
+    if (twoChild) {
+        //Find maximum value (and parent) on left side of removal node
+        if (val.priority == root->priority) {
+            root->priority = maxOnLeft->priority;
+        } else if (left) {
+            if (maxIsLeft)
+                parent->priority = maxOnLeft->priority;
+            else
+                parent->left->priority = maxOnLeft->priority;
+        } else if (!left) {
+            parent->right->priority = maxOnLeft->priority;
+        }
+
+    }
+    return true;
 }
 

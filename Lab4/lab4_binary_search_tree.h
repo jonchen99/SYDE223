@@ -5,6 +5,8 @@
 #define LAB4_BINARY_SEARCH_TREE_HPP
 
 #include <string>
+#include <sstream>
+#include <queue>
 
 using namespace std;
 

@@ -161,7 +161,6 @@ public:
         ASSERT_TRUE(bst.get_size() == 2);
         ASSERT_TRUE(bst.insert(BinarySearchTree::TaskItem(65,"Test Task")));
         ASSERT_TRUE(bst.get_size() == 3);
-
         ASSERT_TRUE(bst.remove(BinarySearchTree::TaskItem(65,"Test Task")));
         ASSERT_TRUE(bst.get_size() == 2);
 
@@ -179,7 +178,6 @@ public:
         ASSERT_TRUE(bst.insert(BinarySearchTree::TaskItem(7,"Test Task")));
         ASSERT_TRUE(bst.insert(BinarySearchTree::TaskItem(6,"Test Task")));
         ASSERT_TRUE(bst.insert(BinarySearchTree::TaskItem(2,"Test Task")));
-
         ASSERT_TRUE(bst.remove(BinarySearchTree::TaskItem(7,"Test Task")));
         ASSERT_TRUE(!bst.exists(BinarySearchTree::TaskItem(7,"Test Task")));
         ASSERT_TRUE(level_order(bst.root).compare(expected_tree) == 0)

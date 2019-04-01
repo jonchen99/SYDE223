@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/amanmathur/Google Drive/school/2A/SYDE 223/Assignments/SYDE223/Lab4/lab4_binary_search_tree.h
+string
+-
+
+/Users/amanmathur/Google Drive/school/2A/SYDE 223/Assignments/SYDE223/Lab4/lab4_main.cpp
+iostream
+-
+string
+-
+lab4_tests.h
+/Users/amanmathur/Google Drive/school/2A/SYDE 223/Assignments/SYDE223/Lab4/lab4_tests.h
+
+/Users/amanmathur/Google Drive/school/2A/SYDE 223/Assignments/SYDE223/Lab4/lab4_priority_queue.h
+string
+-
+iostream
+-
+
+/Users/amanmathur/Google Drive/school/2A/SYDE 223/Assignments/SYDE223/Lab4/lab4_tests.h
+algorithm
+-
+sstream
+-
+queue
+-
+lab4_priority_queue.h
+/Users/amanmathur/Google Drive/school/2A/SYDE 223/Assignments/SYDE223/Lab4/lab4_priority_queue.h
+lab4_binary_search_tree.h
+/Users/amanmathur/Google Drive/school/2A/SYDE 223/Assignments/SYDE223/Lab4/lab4_binary_search_tree.h
+

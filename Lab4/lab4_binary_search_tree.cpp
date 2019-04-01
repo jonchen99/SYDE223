@@ -14,6 +14,7 @@ BinarySearchTree::BinarySearchTree() {
 
 // PURPOSE: Explicit destructor of the class BinarySearchTree
 BinarySearchTree::~BinarySearchTree() {
+    recursiveDestructor(root);
 }
 
 // PURPOSE: Returns the number of nodes in the tree
@@ -27,6 +28,7 @@ BinarySearchTree::TaskItem BinarySearchTree::max() const {
     if (size == 0)
         return BinarySearchTree::TaskItem(-1, "N/A");
 
+    //Iterate down and right until maximum node is found
     TaskItem *max = root;
     while (max->right != NULL) {
         max = max->right;
@@ -41,6 +43,7 @@ BinarySearchTree::TaskItem BinarySearchTree::min() const {
     if (size == 0)
         return BinarySearchTree::TaskItem(-1, "N/A");
 
+    //Iterate down and left until minimum node is found
     TaskItem *min = root;
     while (min->left != NULL) {
         min = min->left;
@@ -83,10 +86,12 @@ bool BinarySearchTree::exists( BinarySearchTree::TaskItem val ) const {
     TaskItem *cur = root;
     while(cur != NULL)
     {
+        //if node is found, return true
         if(cur ->priority == val.priority){
             return true;
         }
 
+        //If node is greater or less than, move right or left respectively
         if (cur ->priority > val.priority){
             cur = cur -> left;
         } else {
@@ -108,17 +113,35 @@ BinarySearchTree::TaskItem** BinarySearchTree::get_root_node_address() {
     return NULL;
 }
 
+
+// PURPOSE: Helper created to use destructor recursively
+BinarySearchTree::TaskItem* BinarySearchTree::recursiveDestructor( BinarySearchTree::TaskItem* n) {
+    {
+        if (n != NULL) {
+            recursiveDestructor(n->left);
+            recursiveDestructor(n->right);
+            delete n;
+        }
+    }
+}
+
 // PURPOSE: Optional helper function that gets the maximum depth for a given node
 int BinarySearchTree::get_node_depth( BinarySearchTree::TaskItem* n ) const {
+
+    //Recursively check each path for longest to determine depth
     if (n == NULL) return -1;
     int left_depth = 1+get_node_depth(n->left);
     int right_depth = 1+get_node_depth(n->right);
+
+    //return the longer of the left or right depths
     return left_depth > right_depth ? left_depth : right_depth;
 }
 
 // PURPOSE: Inserts the value val into the tree if it is unique
 // returns true if successful; returns false if val already exists
 bool BinarySearchTree::insert( BinarySearchTree::TaskItem val ) {
+
+    //If inserting first value, set as root
     if (root == NULL) {
         root = new TaskItem(val);
         size++;
@@ -128,6 +151,7 @@ bool BinarySearchTree::insert( BinarySearchTree::TaskItem val ) {
     TaskItem *cur = root;
     TaskItem *parent = NULL;
 
+    //Traverse until location where node should be added is found
     while (cur != NULL){
         if (val.priority > cur->priority){
             parent = cur;
@@ -140,6 +164,7 @@ bool BinarySearchTree::insert( BinarySearchTree::TaskItem val ) {
         }
     }
 
+    //Insert node on left or right of parent depending on priority
     if (val.priority > parent -> priority){
         parent -> right = new TaskItem(val);
     } else {

@@ -69,6 +69,9 @@ public:
     // PURPOSE: Optional helper function that returns a pointer to the root node
     TaskItem* get_root_node();
 
+    // PURPOSE: Helper created to use destructor recursively
+    TaskItem* recursiveDestructor( BinarySearchTree::TaskItem* n);
+
     // PURPOSE: Optional helper function that returns the root node pointer address
     TaskItem** get_root_node_address();
 

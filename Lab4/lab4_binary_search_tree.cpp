@@ -115,13 +115,11 @@ BinarySearchTree::TaskItem** BinarySearchTree::get_root_node_address() {
 
 
 // PURPOSE: Helper created to use destructor recursively
-BinarySearchTree::TaskItem* BinarySearchTree::recursiveDestructor( BinarySearchTree::TaskItem* n) {
-    {
-        if (n != NULL) {
-            recursiveDestructor(n->left);
-            recursiveDestructor(n->right);
-            delete n;
-        }
+void BinarySearchTree::recursiveDestructor( BinarySearchTree::TaskItem* n) {
+    if (n != NULL) {
+        recursiveDestructor(n->left);
+        recursiveDestructor(n->right);
+        delete n;
     }
 }
 
@@ -209,7 +207,6 @@ bool BinarySearchTree::remove( BinarySearchTree::TaskItem val ) {
                 return false;
             }
             left = true;
-            //If value is equal to given value, update flag
         } else {
             return false;
         }
@@ -221,7 +218,6 @@ bool BinarySearchTree::remove( BinarySearchTree::TaskItem val ) {
     if (cur->left != NULL && cur->right != NULL) {
         if (maxOnLeft->right != NULL) {
             while (maxOnLeft->right != NULL) {
-                //            maxOnLeftParent = maxOnLeft;
                 parent = maxOnLeft;
                 maxOnLeft = maxOnLeft->right;
                 left = false;
